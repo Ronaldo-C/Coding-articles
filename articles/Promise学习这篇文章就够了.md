@@ -30,7 +30,7 @@ new Promise(
 3. **Promise**状态一经改变，就不会在变。
 4. **Promise**实例一经创建，执行器立即执行。
 
-##4.then()和catch()
+## 4.then()和catch()
 - .then()接受两个函数作为参数，分别代表*fulfilled*和*rejected*。
 - .then()返回一个新的**Promise**实例，所以它可以链式调用。
 - 当前面**Promise**状态改变时，.then()根据其最终状态，选择特定的状态相应函数执行。
