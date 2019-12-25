@@ -41,17 +41,17 @@
 
 *   按照类型
 
-   ![类型.PNG](https://upload-images.jianshu.io/upload_images/17488635-3a3d6790bef3bc86.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+   ![类型.PNG](..\images\6.png)
 
 
 *   按照功能模块
 
-    ![按照功能模块.PNG](https://upload-images.jianshu.io/upload_images/17488635-c69c8a1ff4452892.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+    ![按照功能模块.PNG](..\images\7.png)
 
 
 *   Ducks
 
-   ![Ducks.PNG](https://upload-images.jianshu.io/upload_images/17488635-bbb8eb38b2d92ef4.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+   ![Ducks.PNG](..\images\8.png)
 
 
 ## 6.Selector函数
@@ -59,7 +59,7 @@
 *   实现container components层和redux层的解耦。(方便以后修改state结构)
 *   简单地说就是从redux状态层中获取数据的函数。
 
-   ![selectors函数.PNG](https://upload-images.jianshu.io/upload_images/17488635-26cd955aeb77737c.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+   ![selectors函数.PNG](..\images\9.png)
 
 
 ## 7.Middleware中间件

@@ -1,6 +1,6 @@
 # 1.网页文档和浏览器窗口
 要理解clientHeight和scrollHeight等属性，必须先知道什么是网页文档和浏览器窗口，拿下图说明：
-![image](https://upload-images.jianshu.io/upload_images/17488635-a22d2841295e9eb7?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![image](../images/1.png)
 左边的图是网页文档，包括网页未显示内容；右边红框框起来的是浏览器窗口，指的就是当前网页窗口视图。
 
 **浏览器窗口**
@@ -51,9 +51,10 @@
 </html>
 ```
 代码效果如下图：
-![test.PNG](https://upload-images.jianshu.io/upload_images/17488635-4f49e10cf80c4a72.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![test.PNG](../images/2.png)
 控制台打印出：
 ![console.PNG](https://upload-images.jianshu.io/upload_images/17488635-9b350e81a6cdb4f8.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 - **scrollHeight**就是container内部的总高度 = 500(box的高度) + 40(padding的高度)。
 - **offsetHeight**就是container可见高度 = 283(container的高度) + 40(padding的高度) + 0(border的宽度) + 17(滚动条的宽度)。
 - **clientHeight**也是container可见高度，但是它不包括border的宽度和滚动条的宽度 = 283(container的高度) + 40(padding的高度)
@@ -63,20 +64,20 @@
 ## 1.clientWidth和clientHeight
 - clientHeight = CSS height + CSS padding
 - 该属性只读
-![Dimensions-client.png](https://upload-images.jianshu.io/upload_images/17488635-532111b26c6fc569.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![Dimensions-client.png](..\images\3.png)
 
 
 
 ## 2.offsetWidth和offsetHeight
 - offsetHeight = CSS height + CSS padding + CSS border + 水平滚动条高度(如果存在)
 - 该属性只读
-![Dimensions-offset.png](https://upload-images.jianshu.io/upload_images/17488635-a9e0ba79bc5d87ce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![Dimensions-offset.png](..\images\4.png)
 
 
 ## 3.scrollWidth和scrollHeight
 - scrollWidth = CSS width + CSS padding
 - 该属性只读
-![image](https://upload-images.jianshu.io/upload_images/17488635-84fc19f355f6ddd3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![image](..\images\5.png)
 
 ## 4.clientTop,clientRight,clientBottom,clientLeft
 - clientTop = border-top-width
