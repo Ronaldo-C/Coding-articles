@@ -51,7 +51,7 @@
 </html>
 ```
 代码效果如下图：
-![test.PNG](../images/2.png)
+![](../images/2.png)
 控制台打印出：
 ![console.PNG](https://upload-images.jianshu.io/upload_images/17488635-9b350e81a6cdb4f8.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
@@ -64,20 +64,20 @@
 ## 1.clientWidth和clientHeight
 - clientHeight = CSS height + CSS padding
 - 该属性只读
-![Dimensions-client.png](..\images\3.png)
+![](..\images\3.png)
 
 
 
 ## 2.offsetWidth和offsetHeight
 - offsetHeight = CSS height + CSS padding + CSS border + 水平滚动条高度(如果存在)
 - 该属性只读
-![Dimensions-offset.png](..\images\4.png)
+![](..\images\4.png)
 
 
 ## 3.scrollWidth和scrollHeight
 - scrollWidth = CSS width + CSS padding
 - 该属性只读
-![image](..\images\5.png)
+![](..\images\5.png)
 
 ## 4.clientTop,clientRight,clientBottom,clientLeft
 - clientTop = border-top-width
