@@ -64,20 +64,20 @@
 ## 1.clientWidth和clientHeight
 - clientHeight = CSS height + CSS padding
 - 该属性只读
-![ ](..\images\3.png)
+![ ](../images/3.png)
 
 
 
 ## 2.offsetWidth和offsetHeight
 - offsetHeight = CSS height + CSS padding + CSS border + 水平滚动条高度(如果存在)
 - 该属性只读
-![ ](..\images\4.png)
+![ ](../images/4.png)
 
 
 ## 3.scrollWidth和scrollHeight
 - scrollWidth = CSS width + CSS padding
 - 该属性只读
-![ ](..\images\5.png)
+![ ](../images/5.png)
 
 ## 4.clientTop,clientRight,clientBottom,clientLeft
 - clientTop = border-top-width
