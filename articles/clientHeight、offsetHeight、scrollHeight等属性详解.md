@@ -53,7 +53,7 @@
 代码效果如下图：
 ![ ](../images/2.png)
 控制台打印出：
-![console.PNG](https://upload-images.jianshu.io/upload_images/17488635-9b350e81a6cdb4f8.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![console.PNG](../images/10.png)
 
 - **scrollHeight**就是container内部的总高度 = 500(box的高度) + 40(padding的高度)。
 - **offsetHeight**就是container可见高度 = 283(container的高度) + 40(padding的高度) + 0(border的宽度) + 17(滚动条的宽度)。
