@@ -5,7 +5,7 @@
 
 **浏览器窗口**
 
-``` 
+``` javascript
 宽：window.innerWidth
 高：window.innerHeight
 ```
@@ -13,13 +13,13 @@
 
 **网页文档**
 
-```
+```javascript
 宽：document.body.scrollWidth
 高：document.body.scrollHeight
 ```
 好了，看到这里我们就要上代码了，给大家演示一下clientHeight、offsetHeight和scrollHeight究竟有什么区别
 
-```
+```javascript
 <!DOCTYPE html>
 <html lang="en">
 <head>

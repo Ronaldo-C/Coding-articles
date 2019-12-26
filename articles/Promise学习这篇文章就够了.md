@@ -5,7 +5,7 @@
 - 可以在对象之间传递和操作**Promise**，帮助我们处理队列。
 
 ## 2.Promise的语法
-```
+```javascript
 new Promise(
   //执行器 executor
   function (resolve, reject) {
@@ -39,7 +39,7 @@ new Promise(
 - 如果返回其它任何值，则会立刻执行下一级.then()。
 - 如果有*rejected*函数，则*rejected*函数接受错误，而.catch不会接收到错误。
 - .catch返回一个新的**Promise**实例，并且默认是*fulfilled*状态。
-```
+```javascript
 console.log('start')
 new Promise(function(resolve) {
   console.log('step1') //Promise实例一经创建，执行器立即执行。
@@ -87,7 +87,7 @@ step end
 - 当所有子**Promise**都完成，该**Promise**完成，返回值是全部值的数组。
 - 有任何一个失败，该**Promise**失败，返回值是第一个失败子**Promise**结果。
 - all常和map一起使用。
-```
+```javascript
 console.log('start')
 Promise.all([1, 2, 3]) //传入三个数字
 .then( all => {
@@ -146,7 +146,7 @@ catch:  I am p3
 - 参数是一个跟**Promise**无关的值，同上，不过*fulfilled*响应函数会得到这个值。
 - 参数是**Promise**实例，则返回该实例，不做任何修改。
 - 参数是thenable，立刻执行它的.then()。
-```
+```javascript
 console.log('start')
 //参数为空，返回一个状态为*fulfilled*的**Promise**实例。
 Promise.resolve()
@@ -186,7 +186,7 @@ end
 - 功能类似Promise.resolve()，但是Promise.reject()不认thenable。
 ## 8.Promise.race()
 - 类似Promise.all()，区别在于它有任意一个完成就算完成。
-```
+```javascript
 console.log('start')
 let p1 = new Promise(resolve => {
   setTimeout(() => {
@@ -211,7 +211,7 @@ p1
 ```
 ## 9.代码案例
 - 实现队列
-```
+```javascript
 //使用.forEach()
 function queue(things) {
   let promise = Promise.resolve()

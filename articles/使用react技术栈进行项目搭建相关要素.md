@@ -41,17 +41,17 @@
 
 *   按照类型
 
-   ![类型.PNG](..\images\6.png)
+   ![类型.PNG](../images/6.png)
 
 
 *   按照功能模块
 
-    ![按照功能模块.PNG](..\images\7.png)
+    ![按照功能模块.PNG](../images/7.png)
 
 
 *   Ducks
 
-   ![Ducks.PNG](..\images\8.png)
+   ![Ducks.PNG](../images/8.png)
 
 
 ## 6.Selector函数
@@ -59,7 +59,7 @@
 *   实现container components层和redux层的解耦。(方便以后修改state结构)
 *   简单地说就是从redux状态层中获取数据的函数。
 
-   ![selectors函数.PNG](..\images\9.png)
+   ![selectors函数.PNG](../images/9.png)
 
 
 ## 7.Middleware中间件
@@ -90,13 +90,13 @@
 
 *   使用react提供的Switch组件
 
-## 11.<Route />渲染组件方式
+## 11.`<Route />`渲染组件方式
 
-*   <Route component>
+*   `<Route component>`
 
-*   <Route render>
+*   `<Route render>`
 
-*   <Route children>
+*   `<Route children>`
 
 ## 12.什么是领域
 
