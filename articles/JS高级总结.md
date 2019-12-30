@@ -6,10 +6,10 @@
   - 函数、数组、对象、`new Number(10)`都是对象。他们都是**引用类型**。
   - `null`是js中的一个基本数据类型,之所以显示为'object'是因为对象在底层被表示为二进制,在js中二进制前三位都为0会被判断为object类型,`null`的二进制表示全是0,自然前三位是0,所有`typeof null`会返回'object' 这是语言层面的bug。
   - 值类型的类型判断用`typeof`，引用类型的类型判断用`instanceof`。
-  ```javascript
-  var fn = function () { };
-  console.log(fn instanceof Object);  // true
-  ```
+    ```javascript
+    var fn = function () { };
+    console.log(fn instanceof Object);  // true
+    ```
 ## 函数和对象的关系
   - **对象都是通过函数创建的**。
     ```javascript
@@ -40,12 +40,12 @@
 ## instanceof
   - Instanceof的判断规则是：**沿着A的__proto__这条线来找，同时沿着B的prototype这条线来找，如果两条线能找到同一个引用，即同一个对象，那么就返回true。如果找到终点还未重合，则返回false。**(可结合上图结构查看)。
   - instanceof表示的就是一种继承关系，或者原型链的结构。
-  ```javascript
-  //通过以上规则，就可以解释下面这些怪异的现象了
-  console.log(Object instanceof Function) //true
-  console.log(Function instanceof Object) //true
-  console.log(Function instanceof Function) //true
-  ```
+    ```javascript
+    //通过以上规则，就可以解释下面这些怪异的现象了
+    console.log(Object instanceof Function) //true
+    console.log(Function instanceof Object) //true
+    console.log(Function instanceof Function) //true
+    ```
 
 ## 原型链
   - 访问一个对象的属性时，先在基本属性中查找，如果没有，再沿着`__proto__`这条链向上找，这就是原型链。
@@ -88,34 +88,34 @@
     - 变量、函数表达式——变量声明，默认赋值为undefined（先声明变量，再声明函数表达式）；
     - this——赋值；
     - 函数声明——赋值；
-  ```javascript
-  console.log(a);
-  var a;
-  //undefined
-
-  console.log(this) //Window {parent: Window, opener: null, top: Window, length: 0, frames: Window, …}
-
-  console.log(f1); //function f1() {}
-  function f1() {}; //函数声明
-
-  console.log(f2); //undefined
-  var f2 = function() {}; //函数表达式
-  ```
+     ```javascript
+     console.log(a);
+     var a;
+     //undefined
+      
+     console.log(this) //Window {parent: Window, opener: null, top: Window, length: 0, frames: Window, …}
+      
+     console.log(f1); //function f1() {}
+     function f1() {}; //函数声明
+      
+     console.log(f2); //undefined
+     var f2 = function() {}; //函数表达式
+     ```
   - 如果代码段是函数体，那么在此基础上需要附加：
     - 参数——赋值；
     - arguments——赋值；
     - 自由变量的取值作用域——赋值；
-  ```javascript
-  var a = 10; 
-  function fn() {
-    console.log(a); //a是自由变量，函数创建时，就确定了a要取值的作用域
-  }; 
-  function bar(f) {
-    var a = 20; 
-    f() //10
-  }; 
-  bar(fn)
-  ```
+      ```javascript
+      var a = 10; 
+      function fn() {
+        console.log(a); //a是自由变量，函数创建时，就确定了a要取值的作用域
+      }; 
+      function bar(f) {
+        var a = 20; 
+        f() //10
+      }; 
+      bar(fn)
+      ```
   - 在本作用域中使用的变量，却没有在本作用域中声明（即在其他作用域中声明的），对本作用域来说，这个变量就是一个自由变量。
   - 函数每被调用一次，都会产生一个新的执行上下文环境，因为不同的调用可能就会有不同的参数。并且，函数在定义的时候（不是调用的时候），就已经确定了函数体内部自由变量的作用域。
   - javascript在执行一个代码段之前，都会生成执行上下文环境，这个“代码段”分三种情况——全局代码，函数体，eval代码。
@@ -171,39 +171,39 @@
         f1.getName(); //'zs'
         ```
     2. 函数作为对象的一个属性
-      ```javascript
-      //作为对象的一个属性被调用时，函数中的this指向该对象
-      var obj = {
-        x: 10,
-        fn: function () {
-          console.log(this); //{x: 10, fn: ƒ}
-          console.log(this.x); //10
-        }
-      }
-      obj.fn()
-
-      //不作为对象的一个属性被调用时，函数中的this指向window
-      var obj = {
-        x: 10,
-        fn: function () {
-          console.log(this); //Window {parent: Window, postMessage: ƒ, blur: ƒ, focus: ƒ, close: ƒ, …}
-          console.log(this.x); //undefined
-        }
-      }
-      var f1 = obj.fn;
-      f1()
-      ```
+       ```javascript
+       //作为对象的一个属性被调用时，函数中的this指向该对象
+       var obj = {
+         x: 10,
+         fn: function () {
+           console.log(this); //{x: 10, fn: ƒ}
+           console.log(this.x); //10
+         }
+       }
+       obj.fn()
+ 
+       //不作为对象的一个属性被调用时，函数中的this指向window
+       var obj = {
+         x: 10,
+         fn: function () {
+           console.log(this); //Window {parent: Window, postMessage: ƒ, blur: ƒ, focus: ƒ, close: ƒ, …}
+           console.log(this.x); //undefined
+         }
+       }
+       var f1 = obj.fn;
+       f1()
+       ```
     3. 函数用call、apply、bind调用时，通过第一个参数指定函数内部 this 的指向。
-      ```javascript
-      var obj = {
-        x: 10
-      }
-      var fn = function () {
-        console.log(this); //{x: 10}
-        console.log(this.x); //10
-      }
-      fn.call(obj)
-      ```
+       ```javascript
+       var obj = {
+         x: 10
+       }
+       var fn = function () {
+         console.log(this); //{x: 10}
+         console.log(this.x); //10
+       }
+       fn.call(obj)
+       ```
     4. 全局 & 调用普通函数
       - 全局环境下，this永远是window。
         ```javascript
@@ -242,28 +242,33 @@
   - 闭包应用的两种情况：函数作为返回值，函数作为参数传递。
 
 ## new关键字
-  - **new**做了什么？
-    1. 创建了一个空对象。
-    2. 将该空对象的隐式原型（`__proto__`）连接到构造函数的原型（`prototype`）上。
-    3. 执行该构造函数，并将`this`指向新创建的空对象。
-    4. 如果该构造函数没有返回对象，则返回新创建的对象。
-  - 实现一个`new`关键字。
-    ```javascript
-    function newFun(fun, ...args) {
-      var defaultObj  = Object.create(fun.prototype);
-      var obj = fun.call(defaultObj, ...args);
-      return obj instanceof Object ? obj : defaultObj;
-    }
-    ```
+### new做了什么？
+
+1. 创建了一个空对象。
+2. 将该空对象的隐式原型（`__proto__`）连接到构造函数的原型（`prototype`）上。
+3. 执行该构造函数，并将`this`指向新创建的空对象。
+4. 如果该构造函数没有返回对象，则返回新创建的对象。
+
+### 实现一个new关键字。
+
+```javascript
+function newFun(fun, ...args) {
+  var defaultObj  = Object.create(fun.prototype);
+  var obj = fun.call(defaultObj, ...args);
+  return obj instanceof Object ? obj : defaultObj;
+}
+```
 
 ## call,apply和bind方法。
-  1. `call` 和 `apply` 特性一样
+### call 和 apply
+
    - 都是用来调用函数，而且是立即调用。
    - 但是可以在调用函数的同时，通过第一个参数指定函数内部 `this` 的指向。
    -	`call` 调用的时候，参数必须以参数列表的形式进行传递，也就是以逗号分隔的方式依次传递即可。
    -	`apply` 调用的时候，参数必须是一个数组，然后在执行的时候，会将数组内部的元素一个一个拿出来，与形参一一对应进行传递。
    -	如果第一个参数指定了 `null` 或者 `undefined` 则内部 `this` 指向 `window`。
-  2. `bind`
+### bind
+
    - 可以用来指定内部`this`的指向，然后生成一个改变了`this`指向的新的函数。
    - 它和`call、apply` 最大的区别是：bind不会调用。
    - `bind`支持传递参数，它的传参方式比较特殊，一共有两个位置可以传递。
@@ -302,105 +307,224 @@
   - 可枚举就是可遍历的意思，如果对象的属性可以通过`for...in`，`Object.keys()`遍历，就意味着该属性是可枚举的。新建一个对象时，定义的属性默认是可枚举的，也可以通过Object.defineProperty将该属性定义为不可枚举的。
 
 ## Class的基本语法和继承
+### 基本语法
 
+- ES6的`class`类可以看作是ES5构造函数的语法糖，它的绝大部分功能，ES5都能做到。
+- `class`中的`constructor`方法是类的默认方法，通过`new`命令生成对象实例时，自动调用该方法。一个类必须有`constructor`方法，如果没有显式定义，一个空的    `constructor`方法会被默认添加。
+  ```javascript
+  class Point {
+  }
+   
+  // 等同于
+  class Point {
+    constructor() {}
+  }
+  ```
+- 类必须使用`new`调用，否则会报错。这是它跟普通构造函数的一个主要区别，后者不用new也可以执行。
+  ```javascript
+  class Foo {
+    constructor() {
+      return Object.create(null);
+    }
+  }
+   
+  Foo()
+  // TypeError: Class constructor Foo cannot be invoked without 'new'
+  ```
+- [更多介绍请查看阮一峰老师的Class简介](http://es6.ruanyifeng.com/#docs/class#%E6%B3%A8%E6%84%8F%E7%82%B9)
+
+### 继承
+
+- ES6`class`继承
+  ```javascript
+  //构造函数继承
+  function Person(name, age, sex) {
+    this.name = name;
+    this.age = age;
+    this.sex = sex;
+  }
+  Person.prototype.sayHi = function () {
+      console.log(this.name);
+  }
+  function Student(score, ...args) {
+      Person.call(this, ...args);
+      this.score = score;
+  }
+  Student.prototype = new Person();
+  Student.prototype.constructor = Student;
+  Student.prototype.exam = function () {
+      console.log(this.name);
+  }
+  var s1 = new Student('zs', 18, '男', 100);
+  console.dir(s1);
+  ```
+- ES5构造函数继承
+  ```javascript
+  //class继承
+  class Person {
+    constructor(name, age, sex) {
+       	this.name = name;
+       	this.age = age;
+       	this.sex = sex;
+    }
+
+    sayHi() {
+      console.log(this.name);
+    }
+  }
+  class Student extends Person {
+  	  constructor(score, ...args) {
+  		  super(...args);
+  		  this.score = score;
+      }
+      
+     exam() {
+       console.log(this.name)
+     }
+  }
+  var s1 = new Student('zs', 18, '男', 100);
+  console.dir(s1);
+  ```
+- ES5 的继承，实质是先创造子类的实例对象`this`，然后再将父类的方法添加到`this`上面（`Person.call(this, ...args)`）。ES6 的继承机制完全不同，实质是先将父类实例对象的属性和方法，加到`this`上面（所以必须先调用`super`方法），然后再用子类的构造函数修改`this`。
+- 父类的静态方法也会被子类继承
+  ```javascript
+  class A {
+    static hello() {
+      console.log('hello world');
+    }
+  }
+  class B extends A {}
+  B.hello() // hello world
+  ```
+- `super`关键字
+  - `super`作为函数调用时，代表父类的构造函数。
+  - `super`作为对象时，在普通方法中，指向父类的原型对象；在静态方法中，指向父类。
+    ```javascript
+    class A {
+        static say(msg) {
+        	console.log('static ' + msg)
+        }
+        say(msg) {
+        	console.log('instance ' + msg)
+        }
+   }
+   class B extends A {
+   	static fun(msg) {
+   		super.say(msg)
+   	}
+   	fun(msg) {
+   		super.say(msg)
+   	}
+   }
+   B.fun('hi') //static hi
+   let b = new B()
+   b.fun('hi') //instance hi
+    ```
+ - [更多介绍请查看阮一峰老师的Class继承](http://es6.ruanyifeng.com/#docs/class-extends#%E7%AE%80%E4%BB%8B)
 
 ## 解释JS中的静态方法、公有方法、私有方法和特权方法
-  - 静态方法、属性
-    1. 不会被实例继承，而是直接通过类或构造函数调用，这就称为‘静态方法’。
-    2. 静态方法中的`this`指向的是类或构造函数，而不是指向的实例。
-      ```javascript
-      1. `Class`中的表达方式。
-        class Foo {
-          static name = 'zs'; //静态属性（新写法）
-          static classMethod() { //静态方法
-            return this.name;
-          }
-        }
-        Foo.name = 'ls';//静态属性（老写法）
-        Foo.classMethod();
-        var foo = new Foo();
-        foo.classMethod();
-        // TypeError: foo.classMethod is not a function
+### 静态方法、属性
 
-      2. 构造函数中的表达式。
-        function Foo() {}
-        Foo.myName = 'zs'; //静态属性
-        Foo.getName = function() { //静态方法
-          return this.myName
-        }
-        Foo.getName()
-      ```
-  - 公有（实例）方法、属性
-    ```javascript
-    1. `Class`中的表达方式。
-        class Foo {
-          age = 18; //公有属性写法二
-          constructor() {
-            this.age = 18; //公有属性写法一
-          }
+1. 不会被实例继承，而是直接通过类或构造函数调用，这就称为‘静态方法’。
+2. 静态方法中的`this`指向的是类或构造函数，而不是指向的实例。
+   ```javascript
+     1. `Class`中的表达方式。
+       class Foo {
+         static name = 'zs'; //静态属性写法二
+         static classMethod() { //静态方法
+           return this.name;
+         }
+       }
+       Foo.name = 'ls';//静态属性写法一
+       Foo.classMethod();
+       var foo = new Foo();
+       foo.classMethod();
+       // TypeError: foo.classMethod is not a function
+   
+     2. 构造函数中的表达式。
+       function Foo() {}
+       Foo.myName = 'zs'; //静态属性
+       Foo.getName = function() { //静态方法
+         return this.myName
+       }
+       Foo.getName()
+   ```
 
-          addAge() { //公有方法
-            this.age++
-          }
-        }
-        var foo = new Foo();
-        console.log(foo.age); //18
-        foo.addAge();
-        console.log(foo.age); //19
+### 公有（实例）方法、属性
 
-    2. 构造函数中的表达式。
-        function Foo() {
-          this.age = 18; //公有属性
+  ```javascript
+  1. `Class`中的表达方式。
+      class Foo {
+        age = 18; //公有属性写法二
+        constructor() {
+          this.age = 18; //公有属性写法一
         }
-        Foo.prototype.addAge = function() { //公有方法
+  
+        addAge() { //公有方法
           this.age++
         }
-        var foo = new Foo();
-        console.log(foo.age); //18
-        foo.addAge();
-        console.log(foo.age); //19
-    ```
-  - 私有方法、属性
-    1. 私有方法和私有属性，是只能在类的内部访问的方法和属性，外部不能访问。
-    2. `class`不支持私有方法和属性的设置，只能通过变通的方法实现，其一就是在命名前加`_`来区分。（还有几种实现方法，具体可看[Class 的基本语法](http://es6.ruanyifeng.com/#docs/class#%E7%A7%81%E6%9C%89%E6%96%B9%E6%B3%95%E5%92%8C%E7%A7%81%E6%9C%89%E5%B1%9E%E6%80%A7)）
-      ```javascript
-      1. `Class`中的表达方式。
-          class Foo {
-            _a = 1; //私有属性
-            _b = 2;
-            _sum() { //私有方法
-              return _a + _b;
-            }
-          }
+      }
+      var foo = new Foo();
+      console.log(foo.age); //18
+      foo.addAge();
+      console.log(foo.age); //19
+  
+  2. 构造函数中的表达式。
+      function Foo() {
+        this.age = 18; //公有属性
+      }
+      Foo.prototype.addAge = function() { //公有方法
+        this.age++
+      }
+      var foo = new Foo();
+      console.log(foo.age); //18
+      foo.addAge();
+      console.log(foo.age); //19
+  ```
 
-      2. 构造函数中的表达式。
-          function Foo() {
-            var a = 1; //私有属性
-            var b = 2; //私有属性
-            function sum() { //私有方法
-                console.log(a + b); //3
-            };
-            sum()
+### 私有方法、属性
+
+1. 私有方法和私有属性，是只能在类的内部访问的方法和属性，外部不能访问。
+2. `class`不支持私有方法和属性的设置，只能通过变通的方法实现，其一就是在命名前加`_`来区分。（还有几种实现方法，具体可看[Class 的基本语法](http://es6.ruanyifeng.com/#docs/class#%E7%A7%81%E6%9C%89%E6%96%B9%E6%B3%95%E5%92%8C%E7%A7%81%E6%9C%89%E5%B1%9E%E6%80%A7)）
+   ```javascript
+    1. `Class`中的表达方式。
+        class Foo {
+          _a = 1; //私有属性
+          _b = 2;
+          _sum() { //私有方法
+            return _a + _b;
           }
-          var foo = new Foo()
-      ```
+        }
+    
+    2. 构造函数中的表达式。
+        function Foo() {
+          var a = 1; //私有属性
+          var b = 2; //私有属性
+          function sum() { //私有方法
+              console.log(a + b); //3
+          };
+          sum()
+        }
+        var foo = new Foo()
+   ```
+
   - 特权方法
     1. 特权方法可以访问私有、公有属性和方法。
-    ```javascript
-    function User(){
-      var name = 'zs'; //私有属性
-      this.age = 18; //公有属性
-      this.getName = function(){ //特权方法
-            return name; //name是一个自由变量，要到创建这个函数的那个作用域中取值。
-      }
-      this.getAge = function(){ //特权方法
-            return this.age;
-      }
-    }
-    var user = new User();
-    console.log(user.getName());
-    console.log(user.getAge());
-    ```
+       ```javascript
+       function User(){
+         var name = 'zs'; //私有属性
+         this.age = 18; //公有属性
+         this.getName = function(){ //特权方法
+               return name; //name是一个自由变量，要到创建这个函数的那个作用域中取值。
+         }
+         this.getAge = function(){ //特权方法
+               return this.age;
+         }
+       }
+       var user = new User();
+       console.log(user.getName());
+       console.log(user.getAge());
+       ```
 
 # 深入理解javascript异步系列
 
