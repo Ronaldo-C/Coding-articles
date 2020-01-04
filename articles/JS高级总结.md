@@ -528,3 +528,4 @@ function newFun(fun, ...args) {
 
 # 深入理解javascript异步系列
 
+  ### [Promise](./Promise学习这篇文章就够了.md)
