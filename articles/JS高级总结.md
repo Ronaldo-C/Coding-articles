@@ -311,6 +311,7 @@ function newFun(fun, ...args) {
 
 - ES6的`class`类可以看作是ES5构造函数的语法糖，它的绝大部分功能，ES5都能做到。
 - `class`中的`constructor`方法是类的默认方法，通过`new`命令生成对象实例时，自动调用该方法。一个类必须有`constructor`方法，如果没有显式定义，一个空的    `constructor`方法会被默认添加。
+  
   ```javascript
   class Point {
   }
@@ -335,7 +336,7 @@ function newFun(fun, ...args) {
 
 ### 继承
 
-- ES6`class`继承
+- ES5构造函数继承
   ```javascript
   //构造函数继承
   function Person(name, age, sex) {
@@ -358,7 +359,7 @@ function newFun(fun, ...args) {
   var s1 = new Student('zs', 18, '男', 100);
   console.dir(s1);
   ```
-- ES5构造函数继承
+- ES6`class`继承
   ```javascript
   //class继承
   class Person {
