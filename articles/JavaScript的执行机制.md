@@ -1,4 +1,4 @@
-# JavaScrip的运行机制
+# JavaScrip的执行机制
 
 ## 1.关于javascript
 
@@ -24,7 +24,23 @@ Event Queue分为两种，分别是**宏任务队列**和**微任务队列**，E
 
 <img src="C:\Users\12039\Desktop\Coding-articles\images\task.png" alt="task" style="zoom:100%;" />
 
-## 3.几道面试题
+## 3.几个注意点
+
+### setTimeOut
+
+根据以上我们知道`setTimeOut`并不是延迟多少秒立即执行，而是延迟多少秒把它的回调函数注册到Event Queue，一旦主线程执行栈为空，并且前面的任务队列事件执行完（**队列是先进先出，栈是先进后出**），则执行它的回调函数。
+
+```javascript
+var t = +new Date()
+setTimeout(() => {
+  console.log('实际上3秒后执行')
+}, 1000)
+while(+new Date() - t < 3000) {}
+```
+
+
+
+## 4.几道面试题
 
 ```
 // 说出一下代码执行结果，为什么？

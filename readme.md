@@ -1,6 +1,8 @@
 # 简介
   子曰：“温故而知新，可以为师矣。”
 # 目录
+[JS执行机制](articles/JavaScript的执行机制.md)
+
 [JS高级总结](articles/JS高级总结.md)
 
 [redux源码解读系列-createStore](articles/redux源码解读系列-createStore.md)
