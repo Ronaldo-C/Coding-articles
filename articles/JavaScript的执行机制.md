@@ -4,7 +4,7 @@
 
 众所周知，javascript是一门**单线程**的语言，但是如果一个任务耗时过长，那么后一个任务也必须等着吗？这显然是不可能的，javascript分为**同步任务**和**异步任务**，js代码自上而下执行时，同步任务则在主线程中执行，遇到异步任务进入Event Table并注册函数，具体看下图：
 
-<img src="C:\Users\12039\Desktop\Coding-articles\images\Event Loop.png" alt="Event Loop" style="zoom:100%;" />
+<img src="../images/Event Loop.png" alt="Event Loop" style="zoom:100%;" />
 
 根据上图我们来整理下Event Loop（事件循环）的步骤：
 
@@ -22,7 +22,7 @@ Event Queue分为两种，分别是**宏任务队列**和**微任务队列**，E
 - 微任务（MicroTask）
   - 如 process.nextTick, Promises, Object.observe, MutationObserver
 
-<img src="C:\Users\12039\Desktop\Coding-articles\images\task.png" alt="task" style="zoom:100%;" />
+<img src="../images/task.png" alt="task" style="zoom:100%;" />
 
 ## 3.几个注意点
 
