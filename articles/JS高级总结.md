@@ -2,15 +2,61 @@
 
 ## 值类型和引用类型
 
-  - `undefined`, `number`, `string`, `boolean`属于简单**值类型**。
+  - `undefined`, `number`, `string`, `boolean`, `null`属于简单**值类型**。
+
   - 函数、数组、对象、`new Number(10)`都是对象。他们都是**引用类型**。
+
+  - ES6新增了一种数据类型`Symbol`，表示独一无二的值，它是 JavaScript 语言的第七种数据类型。（**对象的属性名可以有两种：一种是原来就有的字符串，另一种就是新增的 Symbol 类型。**）
+
+    ```javascript
+    let s1 = Symbol();
+    let s2 = Symbol();
+    let s3 = Symbol('s3');//Symbol可以接收一个字符串作为参数，表示对 Symbol 实例的描述，主要是为了在控制台显示，或者转为字符串时，比较容易区分。
+    let obj = {};
+    obj.s1 = 's1';//因为点运算符后面总是字符串，所以导致该属性名不是一个Symbol值，而是一个字符串
+    obj[s1] = 'sym1'
+    obj[s2] = 'sym2'
+    obj[s3] = 'sym3'
+    console.log(obj)
+    
+    //答案：
+    s1: "s1"
+    Symbol(): "sym1"
+    Symbol(): "sym2"
+    Symbol(s3): "sym3"
+    ```
+
+    
+
   - `null`是js中的一个基本数据类型,之所以显示为'object'是因为对象在底层被表示为二进制,在js中二进制前三位都为0会被判断为object类型,`null`的二进制表示全是0,自然前三位是0,所有`typeof null`会返回'object' 这是语言层面的bug。
+
   - 值类型的类型判断用`typeof`，引用类型的类型判断用`instanceof`。
     ```javascript
     var fn = function () { };
     console.log(fn instanceof Object);  // true
     ```
+- 如何精确的区分各种数据类型
+
+  ```javascript
+  console.log(Object.prototype.toString.call("hello"));//[object String]
+  console.log(Object.prototype.toString.call(123));//[object Number]
+  console.log(Object.prototype.toString.call(true));//[object Boolean]
+  console.log(Object.prototype.toString.call(undefined));//[object Undefined]
+  console.log(Object.prototype.toString.call(null));//[object Null]
+  console.log(Object.prototype.toString.call({}));//[object Object]
+  console.log(Object.prototype.toString.call(function(){}));//[object Function]
+  console.log(Object.prototype.toString.call([]));//[object Array]
+  console.log(Object.prototype.toString.call(new Date));//[object Date]
+  console.log(Object.prototype.toString.call(/\d/));//[object RegExp]
+  function foo(){}
+  console.log(Object.prototype.toString.call(new foo()));//[object Object]
+  console.log(Object.prototype.toString.call(Symbol());//[object Symbol]
+  ```
+
+  
+
 ## 函数和对象的关系
+
   - **对象都是通过函数创建的**。
     ```javascript
     //js创建对象的语法糖
@@ -337,28 +383,110 @@ function newFun(fun, ...args) {
 ### 继承
 
 - ES5构造函数继承
+
+  - 原型链继承
+    1. 子类不能够调用父类的构造函数完成继承，而是要通过`new Father('王健林', 58)`去调用父类。
+  - 类式继承（借用call、apply继承）
+    1. 没有原型，无法复用一些公用函数。
+  - 组合继承（原型链继承和类式继承的组合）
+    1. 父级构造函数会被调用两次，一次是创建子类型原型的时候，另一次是在子类型构造函数的内部。
+  - 寄生组合式继承
+    1. **寄生组合式继承本质上和组合继承是一样的，但是是组合继承的优化版，在创建子类型原型的时候，它使用了一个新的函数代替了父级构造函数执行，使父级构造函数只会在子类型构造函数的内部执行一次**
+
   ```javascript
-  //构造函数继承
-  function Person(name, age, sex) {
-    this.name = name;
-    this.age = age;
-    this.sex = sex;
+  //原型链继承
+  function Father(name, age) {
+  	this.fatherName = name;
+  	this.fatherAge = age;
   }
-  Person.prototype.sayHi = function () {
-      console.log(this.name);
+  Father.prototype.fatherSayHi = function () {
+  	console.log('hi,this is father' + this.name)
   }
-  function Student(score, ...args) {
-      Person.call(this, ...args);
-      this.score = score;
+  function Child(name, age) {
+  	this.name = name;
+  	this.age = age;
   }
-  Student.prototype = new Person();
-  Student.prototype.constructor = Student;
-  Student.prototype.exam = function () {
-      console.log(this.name);
+  Child.prototype = new Father('王健林', 58)
+  Child.prototype.constructor = Child
+  Child.prototype.sayHi = function() {
+  	console.log('hi,this is child' + this.name)
   }
-  var s1 = new Student('zs', 18, '男', 100);
-  console.dir(s1);
+  let child1 = new Child('王思聪', 22)
+  console.dir(child1)
+  
+  //类式继承（借用call、apply继承）
+  function Father(name, age) {
+  	this.fatherName = name;
+  	this.fatherAge = age;
+  }
+  Father.prototype.fatherSayHi = function () {
+  	console.log('hi,this is father' + this.name)
+  }
+  function Child(name, age, fatherName, fatherAge) {
+  	Father.call(this,fatherName, fatherAge)
+  	this.name = name;
+  	this.age = age;
+  }
+  Child.prototype.sayHi = function() {
+  	console.log('hi,this is child' + this.name)
+  }
+  let child1 = new Child('王思聪', 22, '王健林', 58)
+  console.dir(child1)
+  
+  //组合继承（原型链继承和类式继承的组合）
+  function Father(name, age) {
+  	this.fatherName = name;
+  	this.fatherAge = age;
+  }
+  Father.prototype.fatherSayHi = function () {
+  	console.log('hi,this is father' + this.name)
+  }
+  function Child(name, age, fatherName, fatherAge) {
+  	Father.call(this,fatherName, fatherAge) ////第二次调用
+  	this.name = name;
+  	this.age = age;
+  }
+  Child.prototype = new Father() //第一次调用
+  Child.prototype.constructor = Child
+  Child.prototype.sayHi = function() {
+  	console.log('hi,this is child' + this.name)
+  }
+  let child1 = new Child('王思聪', 22, '王健林', 58)
+  console.dir(child1)
+  
+  //寄生组合式继承
+  function Father(name, age) {
+  	this.fatherName = name;
+  	this.fatherAge = age;
+  }
+  Father.prototype.fatherSayHi = function () {
+  	console.log('hi,this is father' + this.name)
+  }
+  
+  function Mather(name, age) {
+  	this.matherName = name;
+  	this.matherAge = age;
+  }
+  Mather.prototype.matherSayHi = function() {
+  	console.log('hi,this is mather' + this.name)
+  }
+  
+  function Child(name, age, arg1, arg2) {
+  	Father.apply(this, arg1);
+  	Mather.apply(this, arg2);
+  	this.name = name;
+  	this.age = age;
+  }
+  Child.prototype = Object.create(Father.prototype)
+  Object.assign(Child.prototype, Mather.prototype)
+  Child.prototype.constructor = Child
+  Child.prototype.sayHi = function() {
+  	console.log('hi,this is child' + this.name)
+  }
+  let child1 = new Child('王思聪', 22, ['王健林', 58], ['王思聪他妈', 55])
+  console.dir(child1)
   ```
+
 - ES6`class`继承
   ```javascript
   //class继承
@@ -383,10 +511,12 @@ function newFun(fun, ...args) {
        console.log(this.name)
      }
   }
-  var s1 = new Student('zs', 18, '男', 100);
+  var s1 = new Student(100, 'zs', 18, '男');
   console.dir(s1);
   ```
+  
 - ES5 的继承，实质是先创造子类的实例对象`this`，然后再将父类的方法添加到`this`上面（`Person.call(this, ...args)`）。ES6 的继承机制完全不同，实质是先将父类实例对象的属性和方法，加到`this`上面（所以必须先调用`super`方法），然后再用子类的构造函数修改`this`。
+
 - 父类的静态方法也会被子类继承
   ```javascript
   class A {
@@ -397,6 +527,7 @@ function newFun(fun, ...args) {
   class B extends A {}
   B.hello() // hello world
   ```
+  
 - `super`关键字
   - `super`作为函数调用时，代表父类的构造函数。
   - `super`作为对象时，在普通方法中，指向父类的原型对象；在静态方法中，指向父类。
@@ -421,6 +552,7 @@ function newFun(fun, ...args) {
    let b = new B()
    b.fun('hi') //instance hi
     ```
+  
  - [更多介绍请查看阮一峰老师的Class继承](http://es6.ruanyifeng.com/#docs/class-extends#%E7%AE%80%E4%BB%8B)
 
 ## 解释JS中的静态方法、公有方法、私有方法和特权方法
