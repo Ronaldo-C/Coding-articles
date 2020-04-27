@@ -216,6 +216,7 @@
         var f1 = new Foo();
         f1.getName(); //'zs'
         ```
+        
     2. 函数作为对象的一个属性
        ```javascript
        //作为对象的一个属性被调用时，函数中的this指向该对象
@@ -226,8 +227,8 @@
            console.log(this.x); //10
          }
        }
-       obj.fn()
- 
+   obj.fn()
+     
        //不作为对象的一个属性被调用时，函数中的this指向window
        var obj = {
          x: 10,
@@ -239,6 +240,7 @@
        var f1 = obj.fn;
        f1()
        ```
+       
     3. 函数用call、apply、bind调用时，通过第一个参数指定函数内部 this 的指向。
        ```javascript
        var obj = {
@@ -250,21 +252,22 @@
        }
        fn.call(obj)
        ```
+       
     4. 全局 & 调用普通函数
       - 全局环境下，this永远是window。
         ```javascript
         console.log(this === window); //true
         ```
-      - 普通函数在调用时，其中的this也都是window
+  - 普通函数在调用时，其中的this也都是window
         ```javascript
         var x = 10;
-
+    
         var fn = function () {
           console.log(this); //Window {parent: Window, postMessage: ƒ, blur: ƒ, focus: ƒ, close: ƒ, …}
-          console.log(this.x); //10
+      console.log(this.x); //10
         }
         fn()
-
+    
         //注意下面情况，虽然函数f是在obj.fn内部定义的，但是仍然是一个普通函数，this仍然指向window
         var obj = {
           x: 10,

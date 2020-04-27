@@ -1,4 +1,4 @@
-# HOOK详解
+# react hooks详解
 
 ## 1.useState
 
@@ -139,3 +139,142 @@
 
 ## 2.useEffect
 
+1. 模拟`class`组件的生命周期
+
+   - `componentDidMount`
+
+     ```javascript
+     useEffect(() => {
+         console.log('第二个参数为[]')
+     }, [])
+     ```
+
+   - `componentDidUpdate`
+
+     ```javascript
+     useEffect(() => {
+         console.log('没有第二个参数')
+       }) //每次更行都会执行
+     useEffect(() => {
+         console.log('第二个参数为[n]')
+     }, [n]) //n变化才会执行
+     ```
+
+   - `componentWillUnmount`
+
+     ```javascript
+     useEffect(() => {
+         //组件卸载时将会执行
+         return () => {
+             console.log('clean 第二个参数为[]')
+         }
+     }, [])
+     ```
+
+2. 与`class`组件的生命周期函数的两点不同
+
+   1. 每次更新都会依次运行`useEffect`，并且会在调用一个新的`useEffect `之前对前一个`useEffect `进行清理。
+
+      ```javascript
+      function App() {
+        let [n, setN] = useState(0)
+        const clickFunN = () => {
+          setN(i => ++i)
+        }
+        useEffect(() => {
+          console.log('没有第二个参数')
+          return () => {
+            console.log('clean 没有第二个参数')
+          }
+        })
+        useEffect(() => {
+          console.log('第二个参数为[]')
+          return () => {
+            console.log('clean 第二个参数为[]')
+          }
+        }, [])
+        useEffect(() => {
+          console.log('第二个参数为[n]')
+          return () => {
+            console.log('clean 第二个参数为[n]')
+          }
+        }, [n])
+      
+        return (
+          <div>
+            <p id="val">value:{n}</p>
+            <p>
+              <button onClick={clickFunN}>n</button>
+            </p>
+          </div>
+        )
+      }
+      ```
+
+   2. `useEffect`是在浏览器**绘制之后**执行的，而`componentDidMount`、`componentDidUpdate`是在浏览器**绘制之前**执行的，可以使用`useLayoutEffect`，它的执行时机和`componentDidMount`、`componentDidUpdate`是一样的，并且函数签名和`useEffect`一样，但是尽可能使用`useEffect` 以避免阻塞视觉更新。
+
+      ```javascript
+      //使用useEffect可以发现，页面刷新时300会出现一瞬间，而useLayoutEffect不会，因为它在浏览器绘制之前就执行了。
+      function App() {
+        let [n, setN] = useState(300)
+      
+        // useEffect(() => {
+        //   document.getElementById('val').innerText = 'value:1000'
+        // })
+      
+        useLayoutEffect(() => {
+          document.getElementById('val').innerText = 'value:1000'
+        })
+      
+        return (
+          <div>
+            <p id="val">value:{n}</p>
+          </div>
+        )
+      }
+      ```
+
+
+## 3.useMemo和useCallback
+
+- `useCallback`是`useMemo`的语法糖，`useCallback`直接返回目标函数，而`useMemo`要传一个函数，然后函数再返回目标函数。
+
+- 原理都是返回一个函数，只有当依赖变化才会重新生成函数的引用。
+
+  ```javascript
+  function App() {
+    let [n, setN] = useState(0)
+    let [m, setM] = useState(0)
+  
+    const setNFun = useCallback(() => {
+      setN(++n)
+      console.log(m)
+    }, [n, m]) //如果依赖中不加m，可以发现打印的m值不会跟随更新
+  
+    const setMFun = useMemo(() => () => {
+      setM(++m)
+    }, [m])
+  
+    return (
+      <div>
+        <p id="val">父组件n：{n}</p>
+        <button onClick={setNFun}>+1n</button>
+        <MemoChild propFun={setMFun} m={m}/>
+      </div>
+    )
+  }
+  
+  
+  function Child(props) {
+    console.log('子组件渲染了')
+    return (
+      <div>
+        <p>子组件m：{props.m}</p>
+        <button onClick={props.propFun}>+1m</button>
+      </div>
+    )
+  }
+  const MemoChild = React.memo(Child)
+  ```
+
+  
