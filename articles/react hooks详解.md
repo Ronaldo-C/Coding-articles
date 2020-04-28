@@ -241,6 +241,8 @@
 
 - 原理都是返回一个函数，只有当依赖变化才会重新生成函数的引用。
 
+- 如果要比较对象来优化渲染，可以使用`react.memo`的第二个参数来实现。`react.memo(component, (prevProps, nextProps) => return true || false)`
+
   ```javascript
   function App() {
     let [n, setN] = useState(0)
@@ -275,6 +277,93 @@
     )
   }
   const MemoChild = React.memo(Child)
+  ```
+
+
+## 4.useContext
+
+- `useContext(MyContext)` 相当于 class 组件中的 `static contextType = MyContext` 或者 `<MyContext.Consumer>`。
+
+-  `static contextType = MyContext` 只能订阅单一的`context`，`<MyContext.Consumer>`可以使用多个`context`。
+
+- 当`Provider `的`value`值发生变化时，它内部所有的`Consumer`组件都会更新，并且不受制于`React.memo`或 `shouldComponentUpdate`。
+
+- 理解`context`：`context`中文译为**上下文**，在`react`应用中，数据是通过 props 属性自上而下（由父及子）进行传递的，这样有时父组件的一个属性在深层次的子组件中使用时，一层一层进行传递太过于麻烦，通过使用`context`来创建上下文，`Provider`组件来圈定作用域，作用域内部所有的组件都可以使用上下文。
+
+  ```javascript
+  const themeColor = {
+    c1: 'red',
+    c2: 'green',
+  }
+  
+  //需要注意createContext的默认值只有在没有匹配到对应的Provider时才会生效
+  const ThemeContext1 = React.createContext(null)
+  const ThemeContext2 = React.createContext(null)
+  
+  class App extends React.Component {
+    render() {
+      return (
+        <ThemeContext1.Provider value="hotpink">
+          <Child1 />
+        </ThemeContext1.Provider>
+      )
+    }
+  }
+  
+  class Child1 extends React.Component {
+    constructor(props) {
+      super(props)
+  
+      this.changeTheme = () => {
+        this.setState(state => ({
+          theme: state.theme === themeColor.c1 ? themeColor.c2 : themeColor.c1
+        }))
+      }
+      this.state = {
+        theme: themeColor.c1,
+        changeTheme: this.changeTheme
+      }
+    }
+  
+    render() {
+      return (
+        <ThemeContext2.Provider value={this.state}>
+          <Child2 />
+        </ThemeContext2.Provider>
+      )
+    }
+  }
+  
+  //两种实现方式
+  // class Child2 extends React.Component {
+  //   render() {
+  //     return (
+  //       <ThemeContext1.Consumer>
+  //         {value => (
+  //           <ThemeContext2.Consumer>
+  //             {({theme, changeTheme}) => (
+  //               <div>
+  //                 <h1 style={{ backgroundColor: value }}>ThemeContext1</h1>
+  //                 <h1 style={{ backgroundColor: theme }} onClick={changeTheme}>ThemeContext2</h1>
+  //               </div>
+  //             )}
+  //           </ThemeContext2.Consumer>
+  //         )}
+  //       </ThemeContext1.Consumer>
+  //     )
+  //   }
+  // }
+  
+  function Child2() {
+    const theme1 = useContext(ThemeContext1)
+    const { theme, changeTheme } = useContext(ThemeContext2)
+    return (
+      <div>
+        <h1 style={{ backgroundColor: theme1 }}>ThemeContext1</h1>
+        <h1 style={{ backgroundColor: theme }} onClick={changeTheme}>ThemeContext2</h1>
+      </div>
+    )
+  }
   ```
 
   
