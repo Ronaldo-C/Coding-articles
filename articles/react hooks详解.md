@@ -366,4 +366,89 @@
   }
   ```
 
+
+## 5.useRef
+
+- 原理：实际就是返回一个对象，每次组件重新渲染时，它的引用地址都不变，值都赋给对象的`current`属性。
+
+- 注意：每次`current`值发生变化时，组件并不会重新渲染，需要自己实现渲染功能。
+
+- 为组件添加`ref`，可以直接在`class`组件上使用，但是函数组件需要通过`React.forwardRef(Component)`来进行转发。并且`ref`不通过`props`进行传递。
+
+  ```javascript
+  function App() {
+    const myRef = useRef(0)
+    const update = useState(0)[1] //自己实现渲染函数
+  
+    useEffect(() => {
+      console.log(myRef)
+    }, [myRef.current])
+  
+    return (
+      <div>
+        <div>current：{myRef.current}</div>
+        <button onClick={() => {myRef.current++; update(Math.random())}}>+1</button>
+      </div>
+    )
+  }
+  
+  //绑定DOM
+  function App() {
+    const myRef = useRef(0)
+    useEffect(() => {
+      console.log(myRef)
+      myRef.current.focus()
+    }, [])
+    return (
+      <div>
+        //使用回调ref时，回调函数会执行两次，一次在组件挂载时，会调用 ref 回调函数并传入 DOM 元素，一次在卸载时调用它并传入 null
+        {/* <input type="text" ref={node => myRef.current = node}/> */}
+        <input type="text" ref={myRef}/>
+      </div>
+    )
+  }
+  
+  //为组件添加ref
+  function App() {
+    const myRef = useRef(0)
+  
+    useEffect(() => {
+      // myRef.current.childRef.current.focus() //class组件调用方式
+      myRef.current.focus() //函数组件调用方式
+      console.log(myRef)
+    })
+  
+    return (
+      <div>
+        <Child1 ref={myRef} />
+      </div>
+    )
+  }
+  
+  function Child(props, ref) {
+    return (
+      <div>
+        <input type="text" ref={ref}/>
+      </div>
+    )
+  }
+  
+  //函数组件需要通过React.forwardRef进行转发，ref单独传递
+  const Child1 = React.forwardRef(Child)
+  
+  // class Child1 extends React.Component {
+  //   constructor(props) {
+  //     super(props)
+  //     this.childRef = React.createRef()
+  //   }
+  //   render() {
+  //     return (
+  //       <div>
+  //         <input type="text" ref={this.childRef} />
+  //       </div>
+  //     )
+  //   }
+  // }
+  ```
+
   
