@@ -451,4 +451,137 @@
   // }
   ```
 
+
+## 6.useImperativeHandle
+
+- `useImperativeHandle` 可以让你在使用 `ref` 时自定义暴露给父组件的实例值。
+
+  ```javascript
+  function App() {
+    const ref = useRef()
   
+    useEffect(() => {
+      ref.current.focus()
+    }, [])
+  
+    return <Child1 ref={ref} />
+  }
+  
+  function Child(props, ref) {
+    const myRef = useRef()
+  
+    useImperativeHandle(ref, () => ({
+      focus: () => {
+        myRef.current.focus()
+      }
+    }))
+  
+    return <input type="text" ref={myRef} />
+  }
+  
+  const Child1 = forwardRef(Child)
+  ```
+
+  
+
+## 7.useReducer
+
+- 接受三个参数`useReducer(reducer, initialArg, init)`，第三个参数是一个函数，通过`init(initialArg)`来惰性求值。
+
+  ```javascript
+  //通过useReducer和useContenxt来代替redux
+  function initaliStateFun(initaliState) {
+    return {
+      count: initaliState
+    }
+  }
+  
+  function reducer(state, action) {
+    switch (action.type) {
+      case 'add':
+        return { count: state.count + action.number };
+      case 'minus':
+        return { count: state.count - action.number };
+      case 'reset':
+        return { count: 0 };
+      default:
+        return new Error('unkonw type')
+    }
+  }
+  
+  const context = React.createContext()
+  
+  function App() {
+    const [state, dispatch] = useReducer(reducer, 0, initaliStateFun)
+  
+    return (
+      <context.Provider value={{ state, dispatch }}>
+        <div>count：{state.count}</div>
+        <Child />
+      </context.Provider>
+    )
+  }
+  
+  function Child() {
+    const { dispatch } = useContext(context)
+    const ref = useRef()
+  
+    return (
+      <div>
+        <input type="number" ref={ref} />
+        <button onClick={() => dispatch({ type: 'add', number: Number(ref.current.value) })}>add</button>
+        <button onClick={() => dispatch({ type: 'minus', number: Number(ref.current.value) })}>minus</button>
+        <button onClick={() => { dispatch({ type: 'reset', number: 0 }); ref.current.value = '' }}>reset</button>
+      </div>
+    )
+  }
+  ```
+
+## 8.useDebugValue
+
+- 用于在 React 开发者工具中显示自定义 hook 的标签。
+
+- `useDebugValue('自定义Hook名字')`，`react`开发者工具显示如下图。
+
+  ![useDebugValue.png](https://i.loli.net/2020/05/03/clKXQpdw7EkP4Lu.png)
+
+## 9.自定义hook
+
+```javascript
+const list = [
+  { name: 'jack', id: '1' },
+  { name: 'rose', id: '2' },
+  { name: 'ronaldo', id: '3' }
+]
+
+function useCrud() {
+  const [state, setState] = useState(list)
+  useDebugValue('CRUD', (name) => `这是改造后的${name}`)
+  return {
+    addFun: (name, id) => {
+      setState(state.concat([{name, id}]))
+    },
+    deleteFun: (id) => {
+      let arr = state.filter(item => item.id !== id)
+      setState(arr)
+    },
+    state
+  }
+}
+
+function App() {
+  const { addFun, state, deleteFun } = useCrud()
+  const [ value, setState ] = useState('')
+
+  return (
+    <div>
+      姓名：<input type="text" value={value} onChange={e => setState(e.target.value) }  />
+      <button onClick={() => addFun(value, Math.random())}>添加</button>
+      <ul>
+        {state.map(item => <div key={item.id}><li>{item.name}</li>  <button onClick={() => deleteFun(item.id)} >删除</button></div>)}
+      </ul>
+    </div>
+  )
+}
+```
+
