@@ -543,7 +543,7 @@
 
 - `useDebugValue('自定义Hook名字')`，`react`开发者工具显示如下图。
 
-  ![useDebugValue.png](https://i.loli.net/2020/05/03/clKXQpdw7EkP4Lu.png)
+  [useDebugValue.png](https://i.loli.net/2020/05/03/clKXQpdw7EkP4Lu.png)
 
 ## 9.自定义hook
 
