@@ -162,6 +162,74 @@ console.log(obj)
 
 #### 3.[构造函数继承和class继承](./JS高级总结.md)
 
+#### 4.事件捕获、事件冒泡、事件代理
+
+- **事件捕获**就是从`document `往`target`节点，遇到注册的捕获事件立即触发执行；**事件冒泡**就是从`target`节点往 `document` 方向，遇到注册的冒泡事件立即触发。而`target`节点上的捕获事件和冒泡事件执行顺序遵循先注册先执行原则。
+
+- 事件执行顺序：先捕获，再冒泡。
+
+- **DOM 0 **级规范的方式添加两个事件的话，后面的事件处理器会覆盖前面的事件处理器，并且只能在冒泡阶段触发；**DOM 2**级规范的方式可以在同一个`html`元素上注册多个事件处理。
+
+- `event.stopPropagation()`阻止冒泡；`event.preventDefault()`阻止默认行为；`return false`只能在`JQuery`中既阻止冒泡也会阻止默认行为，但是在**原生`JS`中只会阻止默认行为**。
+
+- `event.target`是触发事件的元素，而`event.currentTarget`是事件绑定的元素。大部分情况下，当使用事件代理时，`event.target`是子元素，而`event.currentTarget`是父级元素。
+
+  ```javascript
+  <body>
+    <div id="aa">AA
+      <div id="bb">BB
+        <div id="cc">CC</div>
+      </div>
+    </div>
+  </body>
+  <script>
+    //DOM0级规范注册事件
+    document.querySelector('body').onclick = function(e) {
+      console.log('body冒泡')
+    }
+    document.querySelector('#aa').onclick =  function(e) {
+      console.log('AA冒泡')
+    }
+    //DOM2级规范注册事件，addEventListener第三个参数默认false；
+    //false > 冒泡阶段执行   true > 捕获阶段执行
+    document.querySelector('#aa').addEventListener('click', function(e) {
+      console.log('AA捕获')
+    }, true)
+    document.querySelector('#bb').addEventListener('click', function(e) {
+      console.log('BB捕获')
+    }, true)
+    document.querySelector('#cc').addEventListener('click', function(e) {
+      console.log('CC冒泡')
+    })
+  
+  </script>
+  
+  
+  //事件代理
+  <body>
+    <ul class="list">
+      <li>red</li>
+      <li>yellow</li>
+      <li>pink</li>
+    </ul>
+  </body>
+  <script>
+    document.querySelector('.list').addEventListener('click', function(e) {
+      console.log(e.target)
+      console.log(e.currentTarget)
+  
+      const nodes = e.currentTarget.children
+      for (let i = 0; i < nodes.length; i++) {
+        const element = nodes[i];
+        element.style.backgroundColor = '#fff'
+      }
+      e.target.style.backgroundColor = e.target.innerText
+    })
+  </script>
+  ```
+
+  
+
 ### 4.React知识
 
 #### 1.componentWillMount和componentDidMount的区别，接口在那个位置调用好些，为什么？
