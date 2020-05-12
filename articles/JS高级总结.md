@@ -227,7 +227,7 @@
            console.log(this.x); //10
          }
        }
-   obj.fn()
+      obj.fn()
      
        //不作为对象的一个属性被调用时，函数中的this指向window
        var obj = {
@@ -261,13 +261,13 @@
   - 普通函数在调用时，其中的this也都是window
         ```javascript
         var x = 10;
-    
+        
         var fn = function () {
           console.log(this); //Window {parent: Window, postMessage: ƒ, blur: ƒ, focus: ƒ, close: ƒ, …}
       console.log(this.x); //10
         }
         fn()
-    
+        
         //注意下面情况，虽然函数f是在obj.fn内部定义的，但是仍然是一个普通函数，this仍然指向window
         var obj = {
           x: 10,
@@ -445,7 +445,7 @@ function newFun(fun, ...args) {
   	console.log('hi,this is father' + this.name)
   }
   function Child(name, age, fatherName, fatherAge) {
-  	Father.call(this,fatherName, fatherAge) ////第二次调用
+  	Father.call(this,fatherName, fatherAge) //第二次调用
   	this.name = name;
   	this.age = age;
   }
