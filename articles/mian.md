@@ -128,6 +128,14 @@ BFC的原理
 
 - dpr：设置像素比 = 物理像素 / 逻辑像素(px)   Ps:在某一方向上，x方向或者y方向
 
+### 5.position
+
+```javascript
+position: static | relative | absolute | fixed | sticky | inherit
+```
+
+
+
 ## JS系列
 
 ### 1.数组方法
@@ -139,6 +147,34 @@ const arr = [1,2,3,4,5,6,7,8,9,10];
 let oddArr = arr.reduce((a, b) => (b % 2 !== 0 && a.push(b), a), [])
 console.log(oddArr) //[1, 3, 5, 7, 9]
 ```
+
+#### 2.拷贝数组
+
+```javascript
+//拷贝一维数组
+var arr1 = ['a', 'b', 'c']
+var arr2 = ['1', '2', '3']
+var str1 = "abc"
+var str2 = "123"
+//slice方法
+var arr3 = arr1.slice(0, 2) //['a', 'b']
+var arr4 = arr1.slice(-2) //['b', 'c']
+var arr5 = arr1.slice(-3, -1) //['a', 'b']
+
+var str3 = str1.slice(0, 2) //'ab'
+var str4 = str1.slice(-2) //'bc'
+var str5 = str1.slice(-3, -1) //'ab'
+
+//concat方法
+var arr6 = arr1.concat(arr2, [1,2,3]) //["a", "b", "c", "1", "2", "3", 1, 2, 3]
+var str6 = str1.concat(str2,'123') //'abc123123'
+
+//拷贝多维数组
+JSON.parse(JSON.string())
+for循环
+```
+
+
 
 ### 2.字符串方法
 
@@ -154,13 +190,17 @@ url.split('?')[1].split('&').forEach(item => {
 console.log(obj)
 ```
 
-### 3.JS高级知识
+### 3.JS基本知识
 
 #### 1.[JavaScript的执行机制](./JavaScript的执行机制.md)
 
 #### 2.[this取值的四种情况](./JS高级总结.md)
 
 #### 3.[构造函数继承和class继承](./JS高级总结.md)
+
+#### 4.[call、apply和bind](./JS高级总结.md)
+
+#### 5.[new](./JS高级总结.md)
 
 #### 4.事件捕获、事件冒泡、事件代理
 
@@ -228,7 +268,97 @@ console.log(obj)
   </script>
   ```
 
-  
+
+#### 5.Promise.resolve(3).then(4).then(console.log)
+
+- 如果`then`方法内部状态是`fulfilled`时的参数不是函数时，则会在内部被替换为 `(x) => x`，即原样返回`promise`最终结果的函数。
+
+#### 6.声明一个p函数，返回一个`Promise`类，声明一个`async`函数a，并在a函数中调用p函数，在a函数内部处理p函数的错误。
+
+```javascript
+function p() {
+      return Promise
+}
+
+async function a() {
+    // await p().reject('23').then(() => {}, (err) => console.log(err + '内部'))
+    try {
+        await p().reject('23')
+    } catch (err) {
+        console.log(err + '内部')
+    }
+    return '555'
+}
+
+a().then(console.log, console.log)
+```
+
+#### 7.`async`和`await`
+
+1. `await循环`
+
+   - 只能采用`for`循环或数组的`reduce`方法，不能采用其他数组方法。
+
+   - 通过`Promise.all`和循环来实现多个请求并发执行。
+
+     ```javascript
+     const delay = timeout => new Promise(resolve => {
+         console.log('开始执行')
+         setTimeout(_ => {
+             resolve(timeout);
+         }, timeout)
+     })
+     
+     //通过Promise.all和循环来实现多个请求并发执行
+     async function f() {
+         let delays = [1000, 2000, 3000]
+         let promises = delays.map(item => delay(item))
+     	let results = [];
+         
+         //results = await Promise.all(promises)
+     
+         for (let promise of promises) {
+             results.push(await promise);
+         }
+     
+         //这种写法，三个promise是并发执行，也就是同时执行，而不是继发执行，会有问题
+         promises.forEach(async function(promise) {
+             results.push(await promise)
+         })
+     
+     	//通过累计器执行上一次async函数返回的promise，来实现继发执行
+         await promises.reduce(async (_, promise) => {
+             let a = await _; //此处累计器_是上一个async函数返回的promise
+             console.log(a)
+             await results.push(await promise);
+             return '555'
+         }, Promise.resolve('555'));
+     
+         console.log(results)
+         return '成功了！'
+     }
+     f().then(console.log)
+     ```
+
+#### 8.import和require
+
+- `import`是`ES6`的命令，`require`是使用的`CommonJS`模块规范，`Node.js`正在使用。
+
+- `CommonJS` 模块输出的是一个值的拷贝，ES6 模块输出的是值的引用。
+
+- `CommonJS` 模块是运行时加载（**所以require理论上可以运用在代码的任何地方**），ES6 模块是编译时输出只读引用（**即不允许修改引入变量的值**）。
+
+- `CommonJS`加载某个模块，是浅拷贝，并且会缓存该模块， 后续加载就从缓存中获取。
+
+- 因为`import`命令没有办法代替`require`的动态加载功能，引入了`import()`函数， 该函数返回一个`promise`对象。
+
+  ```javascript
+  const str = 'hello'
+  //require是浅拷贝，所以是可以修改，import只是生成一个只读引用，修改会报错
+  require('./a.js').say = str 
+  let a = require('./a.js')
+  console.log(a)
+  ```
 
 ### 4.React知识
 
@@ -387,6 +517,28 @@ ReactDOM.render(<A />, document.getElementById('root'))
 #### 4.useEffect模拟componentDidMount
 
 - [react hooks详解](./react hooks详解.md)
+
+#### 5.redux中的applyMiddleware如何实现
+
+- 主要是通过`reduce`实现
+
+  ```javascript
+  funcs.reduce((a, b) => (...args) => a(b(...args)))
+  ```
+
+- [redux源码解读系列-applyMiddleware](./redux源码解读系列-applyMiddleware.md)
+
+### 5.前端工程化
+
+#### 1.Babel是什么，如何自己写一个Babel?
+
+- `Babel`是什么？
+  1. `Babel`是一个`javascript`编译器，主要用于将 ECMAScript 2015+ 版本的代码转换为向后兼容的 JavaScript 语法，以便能够运行在当前和旧版本的浏览器或其他环境中。
+  2. Babel 能够转换 JSX 语法。
+- 如何自己写一个`Babel`？
+  1. 解析: 将代码(其实就是字符串)转换成 AST( 抽象语法树)。
+  2. 转换: 访问 AST 的节点进行变换操作生成新的 AST。
+  3. 生成: 以新的 AST 为基础生成代码。
 
 ## HTTP和浏览器
 

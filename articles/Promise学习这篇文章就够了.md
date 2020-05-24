@@ -39,6 +39,7 @@ new Promise(
 - 如果返回其它任何值，则会立刻执行下一级.then()。
 - 如果有*rejected*函数，则*rejected*函数接受错误，而.catch不会接收到错误。
 - .catch返回一个新的**Promise**实例，并且默认是*fulfilled*状态。
+- 接收状态为*fulfilled*的参数时，如果该参数不是函数，则会在内部被替换为 `(x) => x`，即原样返回 promise 最终结果的函数。[then()](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise/then)
 ```javascript
 console.log('start')
 new Promise(function(resolve) {
