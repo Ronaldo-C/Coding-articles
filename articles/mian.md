@@ -528,6 +528,49 @@ ReactDOM.render(<A />, document.getElementById('root'))
 
 - [redux源码解读系列-applyMiddleware](./redux源码解读系列-applyMiddleware.md)
 
+#### 6.列表循环渲染，为什么要使用key属性，值用index索引可以吗？
+
+- `diff`算法可以通过`key`值快速比对出新旧虚拟`Dom`的差异，进行组件更新。如果你不指定显式的 key 值，那么 React 将默认使用`index`索引用作为列表项目的 key 值。
+
+- 使用`index`索引作为`key`值时，当数组重新排序或计算时，可能会导致程序渲染出错误的数据。
+
+  ```javascript
+  class App extends React.Component {
+    constructor() {
+      super()
+      this.state = {
+        list: [
+          { id: 0, value: 1 },
+          { id: 1, value: 2 },
+          { id: 2, value: 3 },
+        ]
+      }
+  
+      this.reverse = this.reverse.bind(this)
+    }
+  
+    //颠倒数组中元素的位置，但是input元素没有更换过来
+    reverse() {
+      this.setState({
+        list: this.state.list.reverse()
+      })
+    }
+  
+    render() {
+      return (
+        <div>
+          <ul>
+            {this.state.list.map((item, index) => <input key={index} />)}
+          </ul>
+          <button onClick={this.reverse}>reverse</button>
+        </div>
+      )
+    }
+  }
+  ```
+
+  
+
 ### 5.前端工程化
 
 #### 1.Babel是什么，如何自己写一个Babel?
