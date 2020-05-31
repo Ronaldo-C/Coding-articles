@@ -134,7 +134,10 @@ BFC的原理
 position: static | relative | absolute | fixed | sticky | inherit
 ```
 
+#### 6.opacity和rgba
 
+- `rgba`的透明度只是代表的当前颜色的透明度，不会影响其它元素，并且子元素不会继承。
+- `opacity`的透明度是整个元素的透明度，并且子元素也会继承该透明度。
 
 ## JS系列
 
@@ -169,9 +172,12 @@ var str5 = str1.slice(-3, -1) //'ab'
 var arr6 = arr1.concat(arr2, [1,2,3]) //["a", "b", "c", "1", "2", "3", 1, 2, 3]
 var str6 = str1.concat(str2,'123') //'abc123123'
 
+//扩展运算符
+var arr7 = [...arr1]
+
 //拷贝多维数组
 JSON.parse(JSON.string())
-for循环
+递归循环
 ```
 
 
@@ -190,7 +196,36 @@ url.split('?')[1].split('&').forEach(item => {
 console.log(obj)
 ```
 
-### 3.JS基本知识
+### 3.对象方法
+
+#### 1.对象浅拷贝和深拷贝
+
+- 浅拷贝
+
+  ```javascript
+  let obj = {a:1,b:{c:1}}
+  
+  //assign
+  let obj1 = Object.assign({}, obj)
+  
+  //扩展运算符
+  let obj2 = {...obj}
+  ```
+
+- 深拷贝
+
+  - 递归循环
+
+  - `JSON.parse(JSON.stringify)`的几点注意
+
+    1. 拷贝的对象的值中如果有**函数**,**`undefined`**,**`symbol`**则经过`JSON.stringify()`序列化后的JSON字符串中这个键值对会消失。（**键为`symbol`也会消失**）。
+    2. 拷贝`Date`引用类型会变成字符串。
+    3. 拷贝`RegExp`引用类型会变成空对象。
+    4. 对象中含有`NaN`、`Infinity`和`-Infinity`，则序列化的结果会变成`null`。
+
+    ![Json序列化对象](../images/Json序列化对象.png)
+
+### 4.JS基本知识
 
 #### 1.[JavaScript的执行机制](./JavaScript的执行机制.md)
 
@@ -360,7 +395,60 @@ a().then(console.log, console.log)
   console.log(a)
   ```
 
-### 4.React知识
+#### 9.函数节流和防抖
+
+- 函数节流：指定时间内只会执行一次任务。（**场景：防止用户连续点击**）
+
+- 函数防抖：函数频繁触发的情况下，只有函数执行间隔超过指定时间，函数才会执行。（**场景：输入框实时搜索**）
+
+  ```javascript
+  //节流
+  function jieliu(fn, delay = 300) {
+      let last = 0
+      return function() {
+        let now = +new Date()
+        if(now - last > delay) { 
+          fn.apply(this, arguments)
+          last = now
+        }
+      }
+    }
+  
+  //防抖
+  function fangdou(fn, delay = 300) {
+      let timerId,
+          last
+      return function() {
+        let now = +new Date()
+        if(now - last < delay) {
+          clearTimeout(timerId)
+          timerId = setTimeout(() => {
+            fn.apply(this, arguments)
+          }, delay)
+        } else { //优化：用户长时间输入没有响应
+          fn.apply(this, arguments)
+          last = now
+        }
+      }
+    }
+  ```
+
+#### 10.Javascript中undefined和not defined有什么区别？
+
+- `undefined`是`JS`的一种基本数据类型；`not defined`是没有定义就用来`console`或者运算的变量时爆出来的错误。
+
+  ```javascript
+  let a = {}
+  
+  console.log(a.b) //undefined
+  console.log(b) //Uncaught ReferenceError: b is not defined
+  ```
+
+#### 11.0.1+0.2
+
+- [0.1+0.2为什么不等于0.3?](https://www.cxymsg.com/guide/jsBasic.html#_0-1-0-2%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E7%AD%89%E4%BA%8E0-3%EF%BC%9F)
+
+### 5.React知识
 
 #### 1.componentWillMount和componentDidMount的区别，接口在那个位置调用好些，为什么？
 
@@ -528,7 +616,11 @@ ReactDOM.render(<A />, document.getElementById('root'))
 
 - [redux源码解读系列-applyMiddleware](./redux源码解读系列-applyMiddleware.md)
 
-#### 6.列表循环渲染，为什么要使用key属性，值用index索引可以吗？
+#### 6.React和Vue的区别
+
+- [React和Vue的区别](https://juejin.im/post/5b8b56e3f265da434c1f5f76)
+
+#### 7.列表循环渲染，为什么要使用key属性，值用index索引可以吗？
 
 - `diff`算法可以通过`key`值快速比对出新旧虚拟`Dom`的差异，进行组件更新。如果你不指定显式的 key 值，那么 React 将默认使用`index`索引用作为列表项目的 key 值。
 
@@ -569,9 +661,12 @@ ReactDOM.render(<A />, document.getElementById('root'))
   }
   ```
 
-  
 
-### 5.前端工程化
+#### 8.this.setState是异步的还是同步的
+
+- [你真的理解setState吗？](https://juejin.im/post/5b45c57c51882519790c7441#heading-6)
+
+### 6.前端工程化
 
 #### 1.Babel是什么，如何自己写一个Babel?
 
@@ -596,7 +691,29 @@ ReactDOM.render(<A />, document.getElementById('root'))
 
 #### 3.跨域
 
-- [前端常见跨域解决方案](https://juejin.im/entry/59b8fb276fb9a00a42474a6f)
+- [前端常见跨域解决方案](https://www.cxymsg.com/guide/browser.html#%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E8%B7%A8%E5%9F%9F%EF%BC%9F)
+
+- [HTTP访问控制(CORS)](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS#%E8%B0%81%E5%BA%94%E8%AF%A5%E8%AF%BB%E8%BF%99%E7%AF%87%E6%96%87%E7%AB%A0%EF%BC%9F)
+
+- `Access-Control-Allow-Origin`设置该`Web`应用可以访问资源服务器上的资源
+
+- 对于跨域 [`XMLHttpRequest`](https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequest) 或 [Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) 请求，浏览器**不会**发送身份凭证信息。如果要发送凭证信息，需要设置 `XMLHttpRequest `的某个特殊标志位，同时服务器端的响应中需要携带 `Access-Control-Allow-Credentials: true` ，否则浏览器将不会把响应内容返回给请求的发送者。
+
+  ```javascript
+  var invocation = new XMLHttpRequest();
+  var url = 'http://bar.other/resources/credentialed-content/';
+      
+  function callOtherDomain(){
+    if(invocation) {
+      invocation.open('GET', url, true);
+      invocation.withCredentials = true; //跨域需要带上此标记位才能携带cookies
+      invocation.onreadystatechange = handler;
+      invocation.send(); 
+    }
+  }
+  ```
+
+  
 
 #### 4.XSS（跨站脚本攻击）和CSRF（跨站请求伪造）
 
