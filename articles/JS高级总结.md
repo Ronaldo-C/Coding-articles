@@ -311,7 +311,7 @@ function newFun(fun, ...args) {
 }
 ```
 
-## call,apply和bind方法
+## call、apply和bind方法
 ### call 和 apply
 
    - 都是用来调用函数，而且是立即调用。
