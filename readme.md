@@ -7,7 +7,7 @@
 
 [50行代码实现前端虚拟列表](articles/50行代码实现前端虚拟列表.md)
 
-[css](articles/css.md)
+[读书系列-《CSS世界》](articles/读书系列-《CSS世界》.md)
 
 [面试题](articles/面试题.md)
 

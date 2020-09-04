@@ -389,7 +389,7 @@ HTTP/1.1 规范定义了如下 47 种首部字段：
 
 - 通常，HTTP 直接和 TCP 通信。当使用 SSL 时，则演变成先和 SSL 通信，再由 SSL 和 TCP 通信了。
 
-- SSL 是独立于 HTTP 的协议，所以不光是 HTTP 协议，其他运行在应 用层的 SMTP 和 Telnet 等协议均可配合 SSL 协议使用。
+- SSL 是独立于 HTTP 的协议，所以不光是 HTTP 协议，其他运行在应用层的 SMTP 和 Telnet 等协议均可配合 SSL 协议使用。
 
   ![HTTPS](../images/http图解7.2.2.png)
 
