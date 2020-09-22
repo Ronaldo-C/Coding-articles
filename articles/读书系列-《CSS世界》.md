@@ -214,3 +214,161 @@
 
   ![content 计数器和content attr属性值](../images/CSS世界4-1.png)
 
+### 4.2 温和的 padding 属性
+
+#### padding 的百分比值
+
+`padding`不可为负值，但是可以为百分比值，**padding 百分比值无论是水平方向还是垂直方向均是相对于宽度计算的。**
+
+```css
+.father {
+    width: 100px;
+}
+.son {
+    padding: 30% 50%;
+    background-color: wheat;
+}
+```
+
+![padding 的百分比值](../images/CSS世界4-2.png)
+
+#### padding 与图形绘制
+
+```css
+//css
+.icon1 {
+    display: inline-block;
+    width: 30px;
+    height: 5px;
+    padding: 5px 0;
+    border-top: 5px solid;
+    border-bottom: 5px solid;
+    background-clip: content-box;
+    background-color: currentColor;
+}
+.icon2 {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    padding: 5px;
+    border-radius: 50%;
+    border: 5px solid;
+    background-clip: content-box;
+    background-color: currentColor;
+}
+
+//html
+<i class="icon1"></i>
+<i class="icon2"></i>
+```
+
+![padding 与图形绘制](../images/CSS世界4-2-2.png)
+
+### 4.3 激进的 margin 属性
+
+#### margin 与元素的内部尺寸
+
+元素设定了`width`或者保持“包裹性”的时候，`padding`会改变元素可视尺寸；对于`margin`则相反，只有元素是“充分利用可用空间”状态的时候，`margin`才可以改变元素的可视尺寸。
+
+对于普通块状元素，在默认的水平流下，`margin`只能改变左右方向的内部尺寸，垂直方向则无法改变。如果我们使用`writing-mode`改变流向为垂直流，则水平方向内部尺寸无法改变，垂直方向可以改变。
+
+```css
+//css
+.father {
+    width: 300px;
+    background-color: hotpink;
+}
+.son {
+    margin: 10px;
+    background-color: grey;
+}
+
+//html
+<div class="father">
+	<div class="son">aaa</div>
+</div>
+```
+
+#### margin 合并
+
+1. margin 合并的特点
+
+   - **块级元素**，但不包括浮动和绝对定位元素，尽管浮动和绝对定位可以让元素块状化。
+   - **只发生在垂直方向**，只发生在和当前文档流方向的相垂直的方向上。由于默认文档流是水平流，因此发生 margin 合并的就是垂直方向。
+
+2. margin 合并的3种场景
+
+   - **相邻兄弟元素 margin 合并**
+   - **父级和第一个/最后一个子元素**
+   - **空块级元素的 margin 合并**
+
+3. 如何阻止 margin 合并
+
+   - 父元素设置为块状格式化上下文元素；
+   - 设置`border`或`padding`阻隔`margin`；
+   -  用内联元素（如文字）阻隔；
+   - 父元素设置 height、min-height 或 max-height。
+
+4. margin 合并的计算规则
+
+   “正正取大值”、“正负值相加”、“负负最负值”
+
+#### 深入理解 CSS 中的`margin:auto`
+
+1. `margin:auto`的填充规则
+
+   - 如果一侧定值，一侧 auto，则 auto 为剩余空间大小。
+   - 如果两侧均是 auto，则平分剩余空间。
+
+2. 为什么`margin:auto`无法垂直居中？
+
+   原因在于触发`margin:auto`计算有一个前提条件，就是 width 或 height 为 auto 时， 元素是具有对应方向的自动填充特性的。比方说这里，假如说把.son 元素的 height:100px 去 掉，.son 的高度会自动和父元素等高变成 200px 吗？显然不会！因此无法触发`margin:auto`计算，故而无法垂直居中。
+
+   ```css
+   .father {
+       height: 200px;
+   }
+   .son {
+       height: 100px;
+       margin: auto;
+   }
+   ```
+
+   
+
+3. 垂直方向margin实现居中
+
+   - 使用 writing-mode 改变文档流的方向。
+
+     ```css
+     .father {
+         height: 200px;
+         writing-mode: vertical-lr;
+     }
+     .son {
+         height: 100px;
+         margin: auto;
+     } 
+     ```
+
+   - 格式化宽度和格式化高度
+
+     ```css
+     .father {
+         width: 300px; 
+         height:150px;
+         position: relative; 
+     }
+     .son {
+         position: absolute;
+         top: 0; 
+         right: 0; 
+         bottom: 0; 
+         left: 0; 
+         width: 200px; 
+         height: 100px; 
+         margin: auto;
+     }
+     ```
+
+     
