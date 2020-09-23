@@ -30,7 +30,7 @@
 
   - [实际开发中的应用](https://demo.cssworld.cn/3/2-3.php)
 
-- **收缩与包裹**：典型代表就是浮动，绝对定位，`inline-block`水平元素或`table`表格，英文称为“shrink-to-fit”，直译为“收缩到合适”，可理解为**“包裹性”**。**CSS3**中表现为 `width:fit-content`。
+- **收缩与包裹**：典型代表就是浮动，绝对定位，inline-block水平元素或`table`表格，英文称为“shrink-to-fit”，直译为“收缩到合适”，可理解为**“包裹性”**。**CSS3**中表现为 `width:fit-content`。
 
   - [实际开发中的应用](https://demo.cssworld.cn/3/2-5.php)
 
@@ -40,7 +40,7 @@
 
   ![收缩到最小](../images/CSS世界3-1.png)
 
-- **超出容器限制**：上面1~3情况，除非有明确的`width`相关设置，否则尺寸都不会主动超过父级容器宽度的，但是存在一些特殊情况。例如，内容很长的连续的英文和数字，或者内联元素被设置了 white-space:nowrap。子元素既保持了 inline-block 元素的收缩特性，又同时让内容宽度大，直接无视父级容器的宽度限制。**CSS3**中表现为 `width:max-content`。
+- **超出容器限制**：上面1~3情况，除非有明确的`width`相关设置，否则尺寸都不会主动超过父级容器宽度的，但是存在一些特殊情况。例如，内容很长的连续的英文和数字，或者内联元素被设置了`white-space:nowrap`。子元素既保持了 inline-block 元素的收缩特性，又同时让内容宽度大，直接无视父级容器的宽度限制。**CSS3**中表现为 `width:max-content`。
 
   - [实际开发中的应用](https://demo.cssworld.cn/3/2-7.php)
 
@@ -64,14 +64,14 @@
 
 #### 宽度分离原则
 
-所谓“宽度分离原则”，就是 CSS 中的 width 属性不与影响宽度的 padding/border（有 时候包括 margin）属性共存，也就是**不能出现**以下的组合：
+所谓“宽度分离原则”，就是 CSS 中的`width`属性不与影响宽度的padding/border（有时候包括margin）属性共存，也就是**不能出现**以下的组合：
 
 ```css
 .box { width: 100px; border: 1px solid; } 
 .box { width: 100px; padding: 20px; } 
 ```
 
-应该 width 独立占用一层标签，而 padding、border、margin 利用流动性在内部自适应呈现：
+应该`width`独立占用一层标签，而`padding`、`border`、`margin`利用流动性在内部自适应呈现：
 
 ```css
 .father {
@@ -86,9 +86,9 @@
 
 #### `box-sizing`的作用细节
 
-- box-sizing 被直译为“盒尺寸”，实际上，其更准确的叫法应该是“盒尺寸的作用 细节”，或者说得更通俗一点，叫“width 作用的细节”，也就是说，box-sizing 属性的作用是改变 width 的作用细节。
+- box-sizing被直译为“盒尺寸”，实际上，其更准确的叫法应该是“盒尺寸的作用 细节”，或者说得更通俗一点，叫“width作用的细节”，也就是说，box-sizing属性的作用是改变width的作用细节。
 
-- box-sizing 被发明出来最大的初衷应该是解决替换元素宽度自适应问题，平时开发使用“宽度分离原则”更为合理。
+- box-sizing被发明出来最大的初衷应该是解决替换元素宽度自适应问题，平时开发使用“宽度分离原则”更为合理。
 
   ```css
   input, textarea, img, video, object { /** 替换元素 **/
@@ -99,14 +99,14 @@
 #### 为何`height:100%`无效
 
 - 浏览器渲染的基本原理：先下载文档内容，加载头部的样式资源（如果有的话），然后按照从上而下、自外而内的顺序渲染 DOM 内容。
-- 当渲染到父元素的时候，子元素的 width:100%并没有渲染，宽度就是图片加文字内容的宽度；等渲染到文字这个子元素的时候， 父元素宽度已经固定，此时的 width:100%就是已经固定好的父元素的宽度。宽度不够怎么 办？溢出就好了，overflow 属性就是为此而生的。（例子：[width: 100%](https://demo.cssworld.cn/3/2-10.php)）
+- 当渲染到父元素的时候，子元素的`width:100%`并没有渲染，宽度就是图片加文字内容的宽度；等渲染到文字这个子元素的时候， 父元素宽度已经固定，此时的 width:100%就是已经固定好的父元素的宽度。宽度不够怎么 办？溢出就好了，overflow属性就是为此而生的。（例子：[width: 100%](https://demo.cssworld.cn/3/2-10.php)）
 - 为何宽度支持，高度就不支持`width:100%`呢？
   - 规范中高度的解释：如果包含块的高度没有显式指定（即高度由内容决定），并且该元素不是绝对定位，则计算值为 auto。
   - 规范中宽度的解释：如果包含块的宽度取决于该元素的宽度，那么产生的布局在 CSS 2.1 中是未定义的。
 
 #### 如何让元素支持`height:100%`效果
 
-- **设定显式的高度值**：宽高百分比计算是相对于 content box 计算的。
+- **设定显式的高度值**：宽高百分比计算是相对于content box计算的。
 
   ```css
   html, body {
@@ -116,7 +116,7 @@
 
   
 
-- **使用绝对定位**：宽高百分比计算是相对于 padding box 的。
+- **使用绝对定位**：宽高百分比计算是相对于padding box的。
 
   ```css
   div {
@@ -127,9 +127,9 @@
 
 ### 3.3  CSS min-width/max-width 和 min-height/max-height 二三事
 
-- max-width 和 max-height 的初始值是 **none**；min-width 和 min-height 的初始值是 **auto**。
+- max-width和max-height的初始值是 **none**；min-width和min-height的初始值是 **auto**。
 
-- max-width 会覆盖 width，并且比 !important 权重还高。
+- max-width会覆盖width，并且比 !important 权重还高。
 
   [权重大于!important](https://demo.cssworld.cn/3/3-1.php)
 
@@ -150,7 +150,7 @@
 
 #### 什么是内联元素
 
-- “内联元素”的“内联”特指“外在盒子”，inline-block 和 inline-table 都是“内联元素”，因为它们的 “外在盒子”都是内联盒子。
+- “内联元素”的“内联”特指“外在盒子”，inline-block和inline-table都是“内联元素”，因为它们的 “外在盒子”都是内联盒子。
 - “内联元素”的典型特征就是可以和文字在一行显示。因此，文字是内联元素，图片是内联元素，按钮是内联元素，输入框、下拉框等原生表单控件也是内联元素。
 
 #### 幽灵空白节点
@@ -218,7 +218,7 @@
 
 #### padding 的百分比值
 
-`padding`不可为负值，但是可以为百分比值，**padding 百分比值无论是水平方向还是垂直方向均是相对于宽度计算的。**
+padding不可为负值，但是可以为百分比值，**padding 百分比值无论是水平方向还是垂直方向均是相对于宽度计算的。**
 
 ```css
 .father {
@@ -268,9 +268,9 @@
 
 #### margin 与元素的内部尺寸
 
-元素设定了`width`或者保持“包裹性”的时候，`padding`会改变元素可视尺寸；对于`margin`则相反，只有元素是“充分利用可用空间”状态的时候，`margin`才可以改变元素的可视尺寸。
+元素设定了width或者保持“包裹性”的时候，padding会改变元素可视尺寸；对于margin则相反，只有元素是“充分利用可用空间”状态的时候，margin才可以改变元素的可视尺寸。
 
-对于普通块状元素，在默认的水平流下，`margin`只能改变左右方向的内部尺寸，垂直方向则无法改变。如果我们使用`writing-mode`改变流向为垂直流，则水平方向内部尺寸无法改变，垂直方向可以改变。
+对于普通块状元素，在默认的水平流下，margin只能改变左右方向的内部尺寸，垂直方向则无法改变。如果我们使用writing-mode改变流向为垂直流，则水平方向内部尺寸无法改变，垂直方向可以改变。
 
 ```css
 //css
@@ -305,7 +305,7 @@
 3. 如何阻止 margin 合并
 
    - 父元素设置为块状格式化上下文元素；
-   - 设置`border`或`padding`阻隔`margin`；
+   - 设置border或padding阻隔margin；
    -  用内联元素（如文字）阻隔；
    - 父元素设置 height、min-height 或 max-height。
 
@@ -322,7 +322,7 @@
 
 2. 为什么`margin:auto`无法垂直居中？
 
-   原因在于触发`margin:auto`计算有一个前提条件，就是 width 或 height 为 auto 时， 元素是具有对应方向的自动填充特性的。比方说这里，假如说把.son 元素的 height:100px 去 掉，.son 的高度会自动和父元素等高变成 200px 吗？显然不会！因此无法触发`margin:auto`计算，故而无法垂直居中。
+   原因在于触发`margin:auto`计算有一个前提条件，就是 width 或 height 为 auto 时， 元素是具有对应方向的自动填充特性的。比方说这里，假如说把.son 元素的`height:100px`去 掉，.son 的高度会自动和父元素等高变成 200px 吗？显然不会！因此无法触发`margin:auto`计算，故而无法垂直居中。
 
    ```css
    .father {
@@ -371,4 +371,13 @@
      }
      ```
 
-     
+
+### 4.4 功勋卓越的 border 属性
+
+#### border-width 不支持百分比值
+
+- margin 和 padding支持百分比，border-width不支持百分比。
+- border-width 还支持关键字：
+  - thin：等同于 1px。
+  - medium（默认值）：等同于 3px。
+  - thick：等同于 4px。
