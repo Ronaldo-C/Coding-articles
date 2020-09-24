@@ -395,3 +395,7 @@ border-color 默认颜色就是 color 色值，具有类似特性的 CSS 属性�
 #### border 与图形构建
 
 [border生成三角形](https://codepen.io/ronaldo-c/pen/GRoOQxK)
+
+#### border实现等高布局
+
+[border实现等高布局](https://demo.cssworld.cn/4/4-4.php)
