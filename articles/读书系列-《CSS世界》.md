@@ -114,8 +114,6 @@
   } 
   ```
 
-  
-
 - **使用绝对定位**：宽高百分比计算是相对于padding box的。
 
   ```css
@@ -289,6 +287,14 @@ padding不可为负值，但是可以为百分比值，**padding 百分比值无
 </div>
 ```
 
+#### margin负值实现等高布局
+
+- 优点：兼容性足够，IE6 浏览器也支持，且支持任意个分栏等高布局。（`padding-bottom:9999px`也可以用 `border-bottom: 9999px solid transparent`代替，不过 IE7 以上浏览器才支持。）
+- 缺点：
+  - 父级的`overflow:hidden`会阻止子元素定位到容器之外。
+  - 当触发锚点定位或者使用 DOM.scrollIntoview()方法的时候，可能就会出现奇怪的定位问题。
+- [margin负值实现等高布局](https://demo.cssworld.cn/4/3-2.php)
+
 #### margin 合并
 
 1. margin 合并的特点
@@ -333,8 +339,6 @@ padding不可为负值，但是可以为百分比值，**padding 百分比值无
        margin: auto;
    }
    ```
-
-   
 
 3. 垂直方向margin实现居中
 
@@ -381,3 +385,13 @@ padding不可为负值，但是可以为百分比值，**padding 百分比值无
   - thin：等同于 1px。
   - medium（默认值）：等同于 3px。
   - thick：等同于 4px。
+
+#### border-color 和 color
+
+border-color 默认颜色就是 color 色值，具有类似特性的 CSS 属性还有 outline、box-shadow 和 text-shadow 等。
+
+[border-color 默认颜色实际开发作用](https://demo.cssworld.cn/4/4-1.php)
+
+#### border 与图形构建
+
+[border生成三角形](https://codepen.io/ronaldo-c/pen/GRoOQxK)
