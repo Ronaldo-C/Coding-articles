@@ -400,7 +400,16 @@ border-color 默认颜色就是 color 色值，具有类似特性的 CSS 属性�
 
 [border实现等高布局](https://demo.cssworld.cn/4/4-4.php)
 
-### 第 5 章 内联元素与流
+## 第 5 章 内联元素与流
 
-#### 5.1 字母 x—CSS 世界中隐匿的举足轻重的角色
+### 5.1 字母 x—CSS 世界中隐匿的举足轻重的角色
+
+#### 字母 x 与 CSS 世界的基线
+
+- 字母 x 的下边缘（线）就是基线，vertical-align的默认值baseline也是基线。
+- CSS 中有一个概念叫作 x-height，指的就是小写字母 x 的高度；`vertical-align:middle`指的是基线往上 1/2 x-height 高度，可以近似理解为字母 x 交叉点那个位置。
+- ex 是 CSS 中的一个尺寸单位，是一个相对单位，指的是小写字母 x 的高度，就是指 x-height。
+- [借助ex实现垂直居中](https://demo.cssworld.cn/5/1-1.php)
+
+### 5.2 内联元素的基石 line-height
 
