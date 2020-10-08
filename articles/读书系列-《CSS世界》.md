@@ -435,6 +435,8 @@ border-color 默认颜色就是 color 色值，具有类似特性的 CSS 属性�
 
 - 留白原因
 
+  当前 line-height 计算值是 20px，而 font-size 只有 14px，因此，字母 x 往下一定 有至少 3px 的半行间距（具体大小与字体有关），而图片作为替换元素其基线是自身的下边缘。 根据定义，默认和基线（也就是这里字母 x 的下边缘）对齐，字母 x 往下的行高产生的多余的间隙就嫁祸到图片下面，让人以为是图片产生的间隙，实际上，是“幽灵空白节点”、 line-height 和 vertical-align 属性共同作用的结果。
+  
   ```css
   //css
   .father {
@@ -450,8 +452,54 @@ border-color 默认颜色就是 color 色值，具有类似特性的 CSS 属性�
   //html
   <div class="father">
   	x<span></span>
-  </div>
+</div>
   ```
-
+  
   ![img标签图片底部间隙问题](../images/CSS世界5-3.png)
+  
+- 如何清除间隙？
+
+  - 图片块状化。
+  - 容器 line-height 足够小。只要半行间距小到字母 x 的下边缘位置或者再往上，自 然就没有了撑开底部间隙高度空间了。比方说，容器设置`line-height:0`。
+  - 容器 font-size 足够小。此方法要想生效，需要容器的 line-height 属性值和当 前 font-size 相关，如 line-height:1.5 或者 line-height:150%之类；否则只会让下面的间隙变得更大，因为基线位置因字符 x 变小而往上升了。
+  - 图片设置其他 vertical-align 属性值。间隙的产生原因之一就是基线对齐，所以我们设置 vertical-align 的值为 top、middle、 bottom 中的任意一个都是可以的。
+
+## 第 6 章 流的破坏与保护
+
+### 6.1 魔鬼属性 float
+
+### 6.2 float 的天然克星 clear
+
+#### clear属性不能真正意义上的清除浮动
+
+- 官方对 clear 属性的解释：元素盒子的边不能和前面的浮动元素相邻。`clear:left`就是不和左边浮动元素相邻，其它值也同理。
+- clear属性只有块级元素才有效。
+- `clear:both`清除浮动的缺点：
+  - 如果 clear:both 元素前面的元素就是 float 元素，则 margin-top 负值即使设 成-9999px，也不见任何效果。
+  - clear:both 后面的元素依旧可能会发生文字环绕的现象。
+
+### 6.3 CSS 世界的结界——BFC 
+
+#### BFC简介
+
+1. BFC的定义：BFC 全称为 block formatting context，中文为“块级格式化上下文”。相对应的还有 IFC， 也就是 inline formatting context，中文为“内联格式化上下”。
+2. BFC的特性：如果一个元素具有 BFC，内部子元素再怎么翻江倒海，都不会影响外部的元素。所以，BFC 元素是**不可能发生 margin 重叠的**，因为 margin 重叠是会影响外面的元素的；BFC 元素也可以用来**清除浮动的影响**，因为如果不清除，子元素浮动则父元素高度塌陷，必然会影响后面元素布局和定位，这显然有违 BFC 元素的子元素不会影响外部元素的设定。
+3. 如何触发BFC：
+   - `<html>`根元素；
+   - float 的值不为 none；
+   - overflow 的值为 auto、scroll 或 hidden；
+   - display 的值为 table-cell、table-caption 和 inline-block 中的任何一个；
+   - position 的值不为 relative 和 static。
+
+### 6.4 最佳结界 overflow
+
+### 6.5 float 的兄弟`position:absolute`
+
+#### 无依赖 absolute 绝对定位
+
+- absolute 是非常独立的 CSS 属性值，其样式和行为表现不依赖其他任何 CSS 属性就可以完成；一个绝对定位元素，没有任何 left/top/right/bottom 属性设置，并且其祖先元素全部都是非定位元素，其位置还是在当前位置。
+- [“无依赖绝对定位”与下拉列表定位实例页面](http://demo.cssworld.cn/6/5-7.php)
+- [“无依赖绝对定位”与表单实例页面](https://demo.cssworld.cn/6/5-6.php)
+
+### 6.6 absolute 与 overflow
 
