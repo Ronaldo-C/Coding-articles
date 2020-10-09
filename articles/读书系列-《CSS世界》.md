@@ -503,3 +503,40 @@ border-color 默认颜色就是 color 色值，具有类似特性的 CSS 属性�
 
 ### 6.6 absolute 与 overflow
 
+### 6.7 absolute 与 clip
+
+### 6.8 absolute 的流体特性
+
+- 当 absolute 遇到 left/top/right/bottom 属性的时候，absolute 元素才真正变成绝对定位元素，原本的相对特性丢失。如果仅设置了一个方向的绝对定位，则另一个方向依然保持了相对特性，例如：
+
+  ```css
+  //此时，水平方向绝对定位，垂直方向仍然保持相对特性
+  .box {
+      position: absolute;
+      left: 0;
+  } 
+  ```
+
+- 当一个绝对定位元素，其对立定位方向属性同时有具体定位数值的时候，流体特性就发生了。例如：
+
+  ```css
+  <div class="box"></div>
+  .box {
+      position: absolute;
+      left: 0; right: 0;
+  } 
+  ```
+
+- 利用绝对定位元素的流体特性和 margin:auto 的自动分配特性实现水平垂直居中：
+
+  ```css
+  .element {
+      width: 300px; height: 200px;
+      position: absolute;
+      left: 0; right: 0; top: 0; bottom: 0;
+      margin: auto;
+  } 
+  ```
+
+### 6.9 position:relative 才是大哥
+
