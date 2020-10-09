@@ -413,11 +413,19 @@ border-color 默认颜色就是 color 色值，具有类似特性的 CSS 属性�
 
 ### 5.2 内联元素的基石 line-height
 
-1. line-height的几种属性值：
+1. 行距 = line-height - font-size；**半行间距  = (line-height - font-size) / 2**
+
+   ![半行间距](../images/CSS世界5-2.png.png)
+
+2. line-height的几种属性值：
    - **数值**，如`line-height:1.5`，其最终的计算结果是和当前font-size相乘后的值。
    - **百分比值**，如`line-height:150%`，其最终的计算结果是和当前font-size相乘后的值。
    - **长度值**，也就是带单位的值，如`line-height:21px`或`line-height:1.5em`，此处em是一个相对于font-size的单位，所以`line-height:1.5em`最终的计算结果也是和当前font-size相乘后的值。
-2. line-height属性值继承细节不同：如果使用数值作为 line-height 的属性值， 那么所有的子元素继承的都是这个值；但是，如果使用百分比值或者长度值作为属性值，那么所有的子元素继承的是最终的计算值。
+
+3. line-height属性值继承细节不同：如果使用数值作为 line-height 的属性值， 那么所有的子元素继承的都是这个值；但是，如果使用百分比值或者长度值作为属性值，那么所有的子元素继承的是最终的计算值。
+4. **存在误区的说法：要想让单行文字垂直居中，只要设置 line-height 大小和 height 高度一样就可以了。**
+   - 误区一：要让单行文字垂直居中，只需要 line-height 这一个属性就可以，与 height 一点儿关系都没有。
+   - 误区二：行高控制文字垂直居中，不仅适用于单行，多行也是可以的，不过需要设置 vertical-align 属性。
 
 ### 5.3 line-height 的好朋友 vertical-align
 
