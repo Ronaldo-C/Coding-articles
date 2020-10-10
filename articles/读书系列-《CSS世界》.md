@@ -637,3 +637,42 @@ z-index 负值渲染的过程就是一个寻找第一个层叠上下文元素的
 
 ## 第 8 章 强大的文本处理能力
 
+### 8.1 line-height 的另外一个朋友 font-size
+
+- [vertical-align 使用 ex 单位实现图标垂直居中](https://demo.cssworld.cn/8/1-1.php)
+
+- font-size 的初始值是 medium ，字号大小跟随浏览器的设置，默认计算值是 16px。
+
+### 8.2 字体属性家族的大家长 font-family
+
+### 8.3 字体家族其他成员
+
+### 8.4 font 属性
+
+### 8.5 真正了解@font face 规则
+
+### 8.6 文本的控制
+
+- [letter-spacing与字符动效实例页面](https://demo.cssworld.cn/8/6-4.php)
+
+- [word-break:break-all和word-wrap:break-word的区别实例页面](https://demo.cssworld.cn/8/6-5.php)
+
+- white-space 不同属性值功能示意：
+
+  | 属性     | 换行 | 空格和制表 | 文本环绕 |
+  | -------- | ---- | ---------- | :------- |
+  | normal   | 合并 | 合并       | 环绕     |
+  | nowrap   | 合并 | 合并       | 不环绕   |
+  | pre      | 保留 | 保留       | 不环绕   |
+  | pre-wrap | 保留 | 保留       | 环绕     |
+  | pre-line | 保留 | 合并       | 环绕     |
+
+- [text-transform 字符大小写实例页面](https://demo.cssworld.cn/8/6-9.php)
+
+### 8.7 了解:first-letter/:first-line 伪元素
+
+- [::first-letter电商实际应用举例](https://codepen.io/ronaldo-c/pen/PozwMNV)
+
+## 第 9 章 元素的装饰与美化
+
+### 9.1 CSS 世界的 color 很单调
