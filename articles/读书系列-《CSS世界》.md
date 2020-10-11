@@ -676,3 +676,33 @@ z-index 负值渲染的过程就是一个寻找第一个层叠上下文元素的
 ## 第 9 章 元素的装饰与美化
 
 ### 9.1 CSS 世界的 color 很单调
+
+- currentColor 变量可以使用当前 color 计算值；CSS 中很多属性值默认就是 currentColor 的表现，如 border、text-shadow、 box-shadow 等。
+
+### 9.2 CSS 世界的 background 很单调
+
+## 第 10 章 元素的显示与隐藏
+
+### 10.1 display 与元素的显隐
+
+- `display:none`的元素 background-image 图片会加载吗？
+
+  - Firefox 浏览器：`display:none`的元素的 background-image 图片是不加载的， 包括父元素 `display:none`也是如此；
+
+  - Chrome 和 Safari 浏览器：父元素`display:none`，图片不加载，若本身背景图所在元素隐藏，则图片依旧会去加载；
+
+  - IE 浏览器：无论怎样都会请求图片资源。
+
+- <img>元素设置`display:none`在所有浏览器下依旧都会请求图片资源。
+
+### 10.2 visibility 与元素的显隐
+
+#### `visibility:hidden`与`display:none`的区别
+
+- visibility 具有继承性，父元素设置`visibility:hidden`，子元素会继承`visibility:hidden`，但如果子元素设置了`visibility:visible`，则子元素又会显示出来。
+- `visibility:hidden`不会影响计数器的计数，而`display:none `则会影响。
+- CSS3 transition 支持的 CSS 属性中有 visibility，但是并没有 display。
+
+## 第 11 章 用户界面样式
+
+### 11.1 和 border 形似的 outline 属性
