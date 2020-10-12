@@ -706,3 +706,17 @@ z-index 负值渲染的过程就是一个寻找第一个层叠上下文元素的
 ## 第 11 章 用户界面样式
 
 ### 11.1 和 border 形似的 outline 属性
+
+### 11.2 光标属性 cursor
+
+## 第 12 章 流向的改变
+
+### 12.1 改变水平流向的 direction
+
+- [CSS direction与文字开头溢出打点效果实例页面](https://demo.cssworld.cn/12/1-2.php)
+
+### 12.2 改变 CSS 世界纵横规则的 writing-mode
+
+- [CSS writing-mode与text-indent文字下沉实例页面](https://demo.cssworld.cn/12/2-5.php)
+
+- [CSS writing-mode与兼容的图标旋转效果实例页面](https://demo.cssworld.cn/12/2-6.php)
