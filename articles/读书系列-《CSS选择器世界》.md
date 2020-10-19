@@ -168,5 +168,45 @@ CSS优先级分为0~5这6个等级
     }
     ```
 
-## 第3章 精通CSS选择符
+## 第4章 精通CSS选择符
+
+- **后代选择符空格（ ）**
+
+  ```css
+  <div class="lightblue">
+     <div class="darkblue">
+        <p>1. 颜色是？</p>
+     </div>
+  </div>
+  <div class="darkblue">
+     <div class="lightblue">
+        <p>2. 颜色是？</p>
+     </div>
+  </div>
+  .lightblue { color: lightblue; }
+  .darkblue { color: darkblue; }
+  /* 此时，1颜色是darkblue；2颜色是lightblue */
+  
+  .lightblue p { color: lightblue; }
+  .darkblue p { color: darkblue; }
+  /* 此时，1和2颜色都是darkblue */
+  ```
+
+- **子选择符箭头（`>`）**
+
+  - 子选择符只会匹配第一代子元素，而后代选择符会匹配所有子元素。
+  - 能不用子选择符就尽量不用，虽然它的性能优于后代选择符，但与其日后的维护成本比，这实在不值一提。
+
+- **相邻兄弟选择符加号（`+`）**
+
+  - 相邻兄弟选择符只能选择后面一个兄弟。
+  - [实现类似:first-child的效果](https://demo.cssworld.cn/selector/4/3-3.php)
+  - [相邻兄弟选择符与:focus伪类交互实例页面](https://demo.cssworld.cn/selector/4/3-4.php)
+
+- **随后兄弟选择符弯弯（`~`）**
+  - 相邻兄弟选择符只会匹配它后面的第一个兄弟元素，而随后兄弟选择符会匹配后面的所有兄弟元素。
+
+- **列选择符双管道（||）**
+
+## 第5章 元素选择器
 
