@@ -244,3 +244,132 @@ CSS优先级分为0~5这6个等级
 
 ## 第6章 属性选择器
 
+### 4种属性值直接匹配选择器
+
+- `[attr]`表示只要包含指定的属性就匹配，无论值的内容是什么。
+
+  ```css
+  [disabled] {}
+  
+  <input disabled> /*匹配*/
+  <input disabled=""> /*匹配*/
+  <input disabled="disabled"> /*匹配*/
+  <input disabled="true"> /*匹配*/
+  <input disabled="false"> /*匹配*/
+  
+  [data-title] {}
+  <a href class data-title="提示" role="button">删除</a> /*匹配*/
+  ```
+
+- `attr="val"`是属性值完全匹配选择器。
+
+  ```css
+  [type="radio"] {}
+  [type="checkbox"] {}
+  [data-type="1"] {}
+  ```
+
+- `attr~='val'`是属性值单词完全匹配选择器，专门用来匹配属性中的单词。
+
+  ```css
+  [rel~="noopener"] {}
+  [rel~="nofollow"] {}
+  
+  <a href rel="nofollow noopener">链接</a> /*匹配*/
+  
+  [rel~=""] {} /* 无任何匹配 */
+  
+  [attr~="val"]
+  
+  <div attr="value"></div> /*匹配*/
+  <div attr="val-ue"></div> /*匹配*/
+  <div attr=" val "></div> /*匹配*/
+  <div attr="val    ue"></div> /*匹配*/
+  ```
+
+  ```css
+  /*适用场景*/
+  <div data-align="left top"></div>
+  <div data-align="top"></div>
+  <div data-align="right top"></div>
+  <div data-align="right"></div>
+  <div data-align="right bottom"></div>
+  <div data-align="bottom"></div>
+  <div data-align="left bottom"></div>
+  <div data-align="left"></div>
+  <div data-align="center"></div>
+  
+  /*最佳实践*/
+  [data-align] { left: 50%; top: 50%; }
+  [data-align~="top"] { top: 0; }
+  [data-align~="right"] { right: 0; }
+  [data-align~="bottom"] { bottom: 0; }
+  [data-align~="left"] { left: 0; }
+  ```
+
+- `[attr|="val"]`是属性值起始片段完全匹配选择器，表示具有`attr`属性的元素，其值要么正好是`val`，要么以`val`外加短横线`-`开头。
+
+  ```html
+  <!-- 匹配 -->
+  <div attr="val"></div>
+  <!-- 匹配 -->       
+  <div attr="val-ue"></div>
+  <!-- 匹配 -->       
+  <div attr="val-ue bar"></div> 
+  <!-- 不匹配 --> 
+  <div attr="value"></div>
+  <!-- 不匹配 -->
+  <div attr="val bar"></div>
+  <!-- 不匹配 -->
+  <div attr="bar val-ue"></div>
+  ```
+
+### 属性值正则匹配选择器
+
+- `[attr^="val"]`表示`attr`属性值以字符`val`开头的元素。
+
+  ```html
+  <!-- 匹配 --> 
+  <div attr="val"></div> 
+  <!-- 不匹配 -->      
+  <div attr="text val"></div>
+  <!-- 匹配 --> 
+  <div attr="value"></div> 
+  <!-- 匹配 -->    
+  <div attr="val-ue"></div>
+  ```
+
+- `[attr$="val"]`表示匹配`attr`属性值以字符`val`结尾的元素。
+
+  ```html
+  <!-- 匹配 --> 
+  <div attr="val"></div> 
+  <!-- 匹配 -->      
+  <div attr="text val"></div>
+  <!-- 不匹配 --> 
+  <div attr="value"></div> 
+  <!-- 不匹配 -->    
+  <div attr="val-ue"></div>
+  ```
+
+- `[attr*="val"]`表示匹配`attr`属性值包含字符`val`的元素。
+
+  ```html
+  <!-- 匹配 --> 
+  <div attr="val"></div> 
+  <!-- 匹配 -->      
+  <div attr="text val"></div>
+  <!-- 匹配 --> 
+  <div attr="value"></div> 
+  <!-- 匹配 -->    
+  <div attr="val-ue"></div>
+  ```
+
+### CSS属性选择器搜索过滤技术
+
+正则匹配运算符是属性选择器新增的运算符，它可以忽略属性值大小写，使用字符`i`或`I`作为运算符值。
+
+[忽略大小写的搜索功能](https://codepen.io/ronaldo-c/pen/RwRMovL)
+
+## 第7章 用户行为伪类
+
