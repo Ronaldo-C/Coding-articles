@@ -373,3 +373,27 @@ CSS优先级分为0~5这6个等级
 
 ## 第7章 用户行为伪类
 
+### 手型经过伪类`:hover`
+
+- [体验优化与:hover延时](https://demo.cssworld.cn/selector/7/1-1.php)
+
+- 当借助`:hover`伪类实现下拉列表效果时，不光可以通过父子选择器控制，也可以借助相邻兄弟选择符实现类似效果。[hover显示有间距的相邻图片元素实例页面](https://demo.cssworld.cn/selector/7/1-3.php)
+- 纯`:hover`交互在用户无鼠标时，则功能完全失效，可以通过增加`:focus`伪类来优化体验。如果浮层内部带有链接或按钮的元素，可以使用整体焦点伪类`:focus-within`，但目前IE浏览器不支持`:focus-within`。[focus也能显示tips提示实例页面](https://demo.cssworld.cn/selector/7/1-4.php)
+
+### 激活状态伪类`:active`
+
+`:active`伪类与CSS数据上报
+
+```css
+.button-1:active::after {
+   content: url(./pixel.gif?action=click&id=button1);
+   display: none;
+}
+.button-2:active::after {
+   content: url(./pixel.gif?action=click&id=button2);
+   display: none;
+}
+```
+
+### 焦点伪类`:focus`
+
