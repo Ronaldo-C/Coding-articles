@@ -395,5 +395,30 @@ CSS优先级分为0~5这6个等级
 }
 ```
 
-### 焦点伪类`:focus`
+### 焦点伪类`:focus
+
+[focus点击显示二维码图片实例页面](https://demo.cssworld.cn/selector/7/3-1.php)
+
+```html
+<!-- 此时div是一个类似textarea元素的输入框 -->
+<div contenteditable="true"></div>
+<div contenteditable="plaintext-only"></div>
+
+<div tabindex="-1">内容</div> <!-- 不可以被Tab键索引，且被点击的时候可以触发:focus样式 -->
+<div tabindex="0">内容</div>  <!-- 可以被Tab键索引，且被点击的时候可以触发:focus样式 -->
+<div tabindex="1">内容</div>  <!-- 不可以被Tab键索引，且被点击的时候可以触发:focus样式 -->
+```
+
+### 整体焦点伪类`:focus-within`
+
+- **`:focus-within`伪类和`:focus`伪类的区别**：`:focus`伪类样式只有在当前元素处于聚焦状态的时候才能匹配，而`:focus-within`伪类样式在当前元素或者是当前元素的任意子元素处于聚焦状态的时候都会匹配。
+- [:focus-within高亮输入框前面的描述文字实例页面](https://demo.cssworld.cn/selector/7/4-1.php)
+- [:focus-within实现下拉列表实例页面](https://demo.cssworld.cn/selector/7/4-2.php)
+
+### 键盘焦点伪类`:focus-visible`
+
+- `:focus-visible`可以让我们知道元素的聚焦行为到底是鼠标触发的还是还是键盘触发的。
+- [:focus-visible与聚焦轮廓控制实例页面](https://demo.cssworld.cn/selector/7/5-1.php)
+
+## 第8章 URL定位伪类
 
