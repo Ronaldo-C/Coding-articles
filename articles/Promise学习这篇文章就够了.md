@@ -270,6 +270,206 @@ readFileMethods('1.txt').then(function (datastr1) {
     console.log(err);
 })
 ```
-## 10.写在最后
+## 10.手写Promise
 
-作者水平有限，欢迎大家指出问题，一起交流，么么哒～
+```javascript
+const PENDING = 'PENDING'
+const FULFILLED = 'FULFILLED'
+const REJECTED = 'REJECTED'
+
+function resolvePromise(MyPromise2, x, resolve, reject) {
+  if (MyPromise2 === x) {
+    return reject(new TypeError('Chaining cycle detected for promise #<Promise>'))
+  }
+  let called
+  if ((typeof x === 'object' && x !== null) || typeof x === 'function') {
+    try {
+      let then = x.then
+      if (typeof then === 'function') {
+        then.call(x, y => {
+          if (called) return
+          called = true
+          resolvePromise(MyPromise2, y, resolve, reject)
+        }, r => {
+          if (called) return
+          called = true
+          reject(r)
+        })
+      } else {
+        if (called) return
+        called = true
+        resolve(x)
+      }
+    } catch (error) {
+      if (called) return
+      called = true
+      reject(error)
+    }
+  } else {
+    if (called) return
+    called = true
+    resolve(x)
+  }
+}
+
+class MyPromise {
+  constructor(execute) {
+    this.status = PENDING
+    this.value = undefined
+    this.reason = undefined
+
+    this.onResolvedCallbacks = []
+    this.onRejectedCallbacks = []
+
+    let resolve = (value) => {
+      if (this.status === PENDING) {
+        this.status = FULFILLED
+        this.value = value
+        this.onResolvedCallbacks.forEach(fn => fn())
+      }
+    }
+
+    let reject = (reason) => {
+      if (this.status === PENDING) {
+        this.status = REJECTED
+        this.reason = reason
+        this.onRejectedCallbacks.forEach(fn => fn())
+      }
+    }
+
+    try {
+      execute(resolve, reject)
+    } catch (error) {
+      reject(error)
+    }
+  }
+
+  static resolve(value) {
+    if (value instanceof MyPromise) {
+      return value
+    }
+    return new MyPromise((resolve, reject) => {
+      if (value && typeof value === 'object' && typeof value.then === 'function') {
+        value.then(resolve, reject)
+      } else {
+        resolve(value)
+      }
+    })
+  }
+
+  static reject(reason) {
+    return new MyPromise((resolve, reject) => reject(reason))
+  }
+
+  static all(values) {
+    if (!Array.isArray(values)) {
+      const type = typeof values;
+      throw new TypeError(`TypeError: ${type} ${values} is not iterable`)
+    }
+
+    return new MyPromise((resolve, reject) => {
+      let resultArr = []
+      let orderIndex = 0
+      const processResultByKey = (value, index) => {
+        resultArr[index] = value;
+        if (++orderIndex === values.length) {
+            resolve(resultArr)
+        }
+      }
+
+      for (let i = 0; i < values.length; i++) {
+        let value = values[i];
+        if(value && typeof value.then === 'function') {
+          value.then(value => {
+            processResultByKey(value, i)
+          }, reject)
+        } else {
+          processResultByKey(value, i)
+        }
+      }
+    })
+  }
+
+  static race(promises) {
+    if (!Array.isArray(promises)) {
+      const type = typeof promises
+      return new TypeError(`TypeError: ${type} ${promises} is not iterable`)
+    }
+
+    return new MyPromise((resolve, reject) => {
+      for (let i = 0; i < promises.length; i++) {
+        const promise = promises[i];
+        if(promise && typeof promise.then === 'function') {
+          promise.then(resolve, reject)
+        } else {
+          resolve(promise)
+        }
+      }
+    })
+  }
+
+  then(onFulfilled, onRejected) {
+    onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : v => v
+    onRejected = typeof onRejected === 'function' ? onRejected : err => { throw err }
+
+    let MyPromise2 = new MyPromise((resolve, reject) => {
+      if (this.status === FULFILLED) {
+        setTimeout(() => {
+          try {
+            let x = onFulfilled(this.value)
+            resolvePromise(MyPromise2, x, resolve, reject)
+          } catch (error) {
+            reject(error)
+          }
+        }, 0)
+      }
+      if (this.status === REJECTED) {
+        setTimeout(() => {
+          try {
+            let x = onRejected(this.reason)
+            resolvePromise(MyPromise2, x, resolve, reject)
+          } catch (error) {
+            reject(error)
+          }
+        }, 0)
+      }
+      if (this.status === PENDING) {
+        this.onResolvedCallbacks.push(() => {
+          setTimeout(() => {
+            try {
+              let x = onFulfilled(this.value)
+              resolvePromise(MyPromise2, x, resolve, reject)
+            } catch (error) {
+              reject(error)
+            }
+          }, 0)
+        })
+        this.onRejectedCallbacks.push(() => {
+          setTimeout(() => {
+            try {
+              let x = onRejected(this.reason)
+              resolvePromise(MyPromise2, x, resolve, reject)
+            } catch (error) {
+              reject(error)
+            }
+          }, 0)
+        })
+      }
+    })
+    return MyPromise2
+  }
+
+  catch(onRejected) {
+    return this.then(null, onRejected)
+  }
+
+  finally = function (callback) {
+    return this.then((value) => {
+      return MyPromise.resolve(callback()).then(() => value)
+    }, (reason) => {
+      return MyPromise.resolve(callback()).then(() => { throw reason })
+    })
+  }
+}
+```
+
