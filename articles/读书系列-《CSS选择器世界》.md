@@ -395,7 +395,7 @@ CSS优先级分为0~5这6个等级
 }
 ```
 
-### 焦点伪类`:focus
+### 焦点伪类`:focus`
 
 [focus点击显示二维码图片实例页面](https://demo.cssworld.cn/selector/7/3-1.php)
 
@@ -421,4 +421,76 @@ CSS优先级分为0~5这6个等级
 - [:focus-visible与聚焦轮廓控制实例页面](https://demo.cssworld.cn/selector/7/5-1.php)
 
 ## 第8章 URL定位伪类
+
+### `:link`和`:visited`伪类
+
+- 区分`<a>`元素按钮是否禁用
+
+  ```css
+  [href] { color: skyblue; }
+  a:not([href]) { opacity: .6; } /** a标签被禁用 **/
+  ```
+
+- `:visited`
+
+  - `:visited`伪类选择器目前只支持：`color`，`background-color`，`border-color`，`border-bottom-color`，`border-left-color`，`border-right-color`，`border-top-color`，`column-rule-color`和`outline-color`。
+
+  - `:visited`代表浏览器访问过的链接。
+
+  - 没有半透明色，要么纯色，要么全透明。
+
+  - 只能重置属性，不能凭空设置属性。
+
+    ```css
+    a { color: blue; }
+    a:visited { color: red; background-color: gray; } /** 背景色不生效 **/
+    
+    a { color: blue; background-color: white; }
+    a:visited { color: red; background-color: gray; } /** 背景色生效 **/
+    ```
+
+  - 无法使用`JavaScript`的`getComputedStyle()`方法获取获取`:visited`设置和呈现的色值。
+
+### `:any-link`伪类
+
+- 匹配所有设置了`href`属性的链接元素，包括`<a>`、`<link>`、`<area>`这三种元素。
+
+- 匹配所有匹配`:link`伪类或者`:visited`伪类的元素。
+
+  ```html
+  <a href="//www.cssworld.cn?r=any-link">没有访问过的链接</a><br>
+  <a href>访问过的链接</a><br>
+  <a>没有设置href属性的a元素</a>
+  
+  a:any-link { color: white; background-color: deepskyblue; }
+  ```
+
+### `:target`与锚点
+
+- URL锚点可以和页面中的`id`匹配的元素进行锚定，浏览器的默认行为就是触发滚动定位，同时进行`:target`伪类匹配。（`#cs-anchor`就是锚点，术语名称就是哈希(hash的音译)，即javascript中location.hash的返回值）。
+
+  ```javascript
+  https://www.cssworld.cn/#cs-anchor
+  ```
+
+- [:target伪类与显示全部文章内容实例页面](https://demo.cssworld.cn/selector/8/3-1.php)
+
+- [:target伪类实现选项卡切换效果实例页面](https://demo.cssworld.cn/selector/8/3-2.php)
+
+### `:target-within`
+
+- `:target-within`伪类的含义与`:focus-within`伪类类似，只是一个是`:target`伪类的祖先匹配，一个是`:focus`伪类的祖先匹配。`:focus-within`伪类目前已经可以在项目中使用，但`:target-within`伪类却还没有浏览器支持。
+
+- 假设浏览器的URL后面的锚点地址是`#cs-anchor`，则`:target`匹配的是`li#cs-anchor`元素，而`:target-within`不仅可以匹配`li#cs-anchor`元素，还可以匹配父元素`ul`，因为`ul`的后代元素`li#cs-anchor`匹配`:target`伪类。
+
+  ```html
+  <ul>
+     <li id="cs-first">第1行，id是cs-first</li>
+     <li id="cs-anchor">第2行，id是cs-anchor</li>
+     <li id="cs-last">第3行，id是cs-last</li>
+     <li id="cs-anchor">第4行，id同样是cs-last</li>
+  </ul>
+  ```
+
+  
 
