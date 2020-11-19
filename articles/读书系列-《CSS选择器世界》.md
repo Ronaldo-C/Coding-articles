@@ -492,5 +492,76 @@ CSS优先级分为0~5这6个等级
   </ul>
   ```
 
-  
+## 第9章 输入伪类
+
+### 可用状态与禁用状态伪类`:enabled`和`:disabled`
+
+### 读写特性伪类`:read-only`和`:read-write`
+
+### 占位符显示伪类`:placeholder-shown`
+
+- `:placeholder-shown`伪类的匹配和`:placeholder`属性密切相关，表示当输入框的`placeholder`内容显示的时候，匹配该输入框。
+
+- [:placeholder-shown与占位符交互实例页面](https://demo.cssworld.cn/selector/9/1-1.php)
+
+- `:placeholder-shown`与空值判断
+
+  ```html
+  textarea:placeholder-shown + small::before,
+  input:placeholder-shown + small::before {
+     content: '尚未输入内容';
+     color: red;
+     font-size: 87.5%;
+  }
+  <input placeholder=" "> <small></small>
+  <textarea placeholder=" "></textarea> <small></small>
+  ```
+
+### 默认选项伪类`:default`
+
+- `:default`伪类选择器只能作用在表单元素上，表示处于默认状态的表单元素。
+- [:default伪类与自动添加推荐实例页面](https://demo.cssworld.cn/selector/9/1-2.php)
+
+### 选中选项伪类`:checked`
+
+- `[checked]`能匹配，那么`:checked`伪类的意义是什么呢？（同理问题：`[disabled]`和`:disabled`，`[readonly]`和`:read-only`）
+  - `:checked`只能匹配标准表单控件元素，不能匹配其它普通元素，即使这个普通元素设置了`checked`属性，但是`[checked]`属性选择器可以和任意元素匹配。
+  - `[checked]`属性变化并非实时的。
+  - 伪类可以正确匹配从祖先元素继承过来的状态，但是属性选择器不可以。
+- 只要`<label>`元素的`for`属性值和单复选框的`id`一致，点击`label`元素就等同于点击单复选框。
+- [:checked伪类与展开收起交互效果实例页面](https://demo.cssworld.cn/selector/9/2-1.php)
+- [:checked伪类实现选项卡切换效果实例页面](https://demo.cssworld.cn/selector/9/2-2.php)
+- [:checked伪类模拟单复选框实例页面](https://demo.cssworld.cn/selector/9/2-3.php)
+- [:checked伪类与开关效果实例页面](https://demo.cssworld.cn/selector/9/2-4.php)
+- [:checked伪类与各种选择交互实现实例页面](https://demo.cssworld.cn/selector/9/2-5.php)
+
+### 不确定值伪类`:indeterminate`
+
+- 复选框除了选中和没选中状态外，还有半选状态，半选状态多用在包含全选功能的列表中。没有原生HTML属性可以设置半选状态，半选状态只能通过JavaScript进行设置，这一点和全选不一样（全选有`checked`属性）。
+
+- `:indeterminate`伪类可以匹配复选框、单选框和进度条元素`<progress>`。
+
+  ```javascript
+  // 设置checkbox元素为半选状态
+  checkbox.indeterminate = true;
+  ```
+
+- [:indeterminate伪类与复选框半选状态实例页面](https://demo.cssworld.cn/selector/9/2-6.php)
+
+- [:indeterminate伪类与单选框组的选择提示实例页面](https://demo.cssworld.cn/selector/9/2-7.php)
+
+### 有效性验证伪类`:valid`和`:invalid`
+
+- [:invalid伪类验证与实际应用实例页面](https://demo.cssworld.cn/selector/9/3-1.php)
+
+### 范围验证伪类`:in-range`和`:out-of-range`
+
+`:in-range`和`:out-of-range`伪类与`min`属性和`max`属性密切相关，因此这两个伪类常用来匹配`number`类型的输入框和`range`类型的输入框。
+
+### 可选性伪类`:required`和`:optional`
+
+- `:optional`伪类可以看成是`:required`伪类的对立面，只要表单元素没有设置`:required`属性，都可以匹配`:optional`伪类，甚至`<button>`按钮也可以匹配。
+- [:required和:optional伪类标记问卷可选项实例页面](https://demo.cssworld.cn/selector/9/3-2.php)
+
+## 第10章 树结构伪类
 
