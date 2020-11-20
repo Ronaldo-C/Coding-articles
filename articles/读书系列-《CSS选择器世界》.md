@@ -565,3 +565,186 @@ CSS优先级分为0~5这6个等级
 
 ## 第10章 树结构伪类
 
+### `:root`伪类和`<html>`元素
+
+- `:root`伪类和`<html>`元素有什么区别？
+  - `:root`伪类优先级更高。
+  - 对于`:root`伪类，IE9以上版本才支持，兼容性逊于`html`标签选择器。
+  - `:root`指所有XML格式文档的根元素，XHTML文档只是其中一种。
+
+### `:empty`伪类
+
+- `:empty`伪类基本匹配特性：
+  - `:empty`伪类用来匹配空标签元素。
+  - `:empty`伪类可以匹配前后闭合的替换元素，如`<button>`元素和`<textarea>`元素。
+  - `:empty`伪类还可以匹配非闭合元素，如`<input>`元素、`<img>`元素和`<hr>`元素等。
+  - 元素内有注释和空格，`:empty`不能匹配。
+  - `:empty`伪类可以匹配`::before`和`::after`伪元素。
+
+  ```css
+  <div class="cs-empty"></div>
+  .cs-empty:empty {
+     width: 120px;
+     padding: 20px;
+     border: 10px dashed;
+  }
+  
+  <textarea></textarea>
+  textarea:empty {
+     border: 6px double deepskyblue;
+  }
+  
+  input:empty,
+  img:empty,
+  hr:empty {
+     border: 6px double deepskyblue;
+  }
+  <input type="text" placeholder="请输入姓名">
+  <img src="./1.jpg">
+  <hr>
+  
+  .cs-empty::before {
+     content: '我是一段文字';
+  }
+  .cs-empty:empty {
+     border: 10px dotted deepskyblue;
+  }
+  <!-- 可以匹配:empty伪类 -->
+  <div class="cs-empty"></div>
+  ```
+
+### 子索引伪类
+
+- `:first-child`伪类和`:last-child`伪类
+
+  `:first-child`伪类可以匹配第一个子元素，`:last-child`伪类可以匹配最后一个子元素；`:first-child`伪类出现早，IE7浏览器就开始支持，而`:last-child`伪类是CSS3时代出现的，IE9浏览器才开始支持，所以优先使用`:first-child`伪类。
+
+- `:only-child`伪类
+
+  - `:only-child`伪类就是匹配没有任何兄弟元素的子元素。
+  - [:only-child伪类与loading模块实例页面](https://demo.cssworld.cn/selector/10/3-1.php)
+
+- `:nth-child()`伪类和`:nth-last-child()`伪类
+  - `:nth-child()`伪类和`:nth-last-child()`伪类区别在于，`:nth-child()`伪类是从前面开始匹配的，而`:nth-last-child()`是从后面开始匹配的，除此之外，两者没有其它区别。
+  - 各种类型参数含义：
+    - **`tr:nth-child(odd):`**匹配表格1，3，5行，等同于`tr:nth-child(2n+1)`。（辅助记忆：odd三个字母，匹配奇数位数的元素）
+    - **`tr:nth-child(even):`**匹配表格2，4，6行，等同于`tr:nth-child(2n)`。（辅助记忆：even四个字母，匹配奇数位数的元素）
+    - **`:nth-child(3):`**匹配第三个元素。
+    - **`:nth-child(5n):`**匹配第5，10，15...个元素。
+    - **`:nth-child(3n+4):`**匹配第4，7，10...个元素。
+    - **`:nth-child(-n+3):`**匹配前3个元素。
+    - **`li:nth-child(n):`**匹配所有的`li`元素，和`<li>`标签选择器区别在于就是优先级更高了。
+    - **`li:nth-child(1):`**匹配第一个`<li>`元素，和`li:first-child`匹配的作用一样，区别就是后者兼容性更好。
+    - **`li:nth-child(n+4):nth-child(-n+10):`**匹配第4~10个元素。
+  - [:nth-child与指定区间范围列表高亮实例页面](https://demo.cssworld.cn/selector/10/3-2.php)
+  - [first-child/nth-last-child动态列表数量匹配技术实例页面](https://demo.cssworld.cn/selector/10/3-3.php)
+
+### 匹配类型的子索引伪类
+
+匹配类型的子索引伪类类似于子索引伪类，区别在于匹配类型的子索引伪类是在同级别列表中相同标签元素之间进行索引和解析的。
+
+- ``:first-of-type``伪类和``:last-of-type``伪类
+
+  `:first-of-type`伪类匹配当前标签类型元素的第一个；`:last-of-type`伪类匹配最后一个同类型的标签元素。
+
+  ```css
+  dl > :first-of-type {
+     color: deepskyblue;
+     font-style: italic;
+  }
+  
+  <dl>
+     <dt>标题1</dt> /** 匹配 **/
+     <dd>内容1</dd> /** 匹配 **/
+     <dt>标题2</dt>
+     <dd>内容2</dd>
+  </dl>
+  
+  
+  dl > :last-of-type {
+     color: deepskyblue;
+     font-style: italic;
+  }
+  <dl>
+     <dt>标题1</dt>
+     <dd>内容1</dd>
+     <dt>标题2</dt> /** 匹配 **/
+     <dd>内容2</dd> /** 匹配 **/
+  </dl>
+  ```
+
+- `:only-of-type`伪类
+
+  `:only-of-type`表示匹配唯一的标签类型的元素。匹配`:only-child`的元素一定匹配`:only-of-type`伪类，但匹配`:only-of-type`伪类的元素不一定匹配`:only-child`伪类。
+
+  ```css
+  dl > :only-of-type {
+     color: deepskyblue;
+     font-style: italic;
+  }
+  
+  <dl>
+     <dt>标题</dt> /** 匹配 **/
+     <dd>内容</dd> /** 匹配 **/
+  </dl>
+  
+  <dl>
+     <dt>标题1</dt> /** 不匹配 **/
+     <dd>内容1</dd> /** 不匹配 **/
+     <dt>标题2</dt> /** 不匹配 **/
+     <dd>内容2</dd> /** 不匹配 **/
+  </dl>
+  ```
+
+- `:nth-of-type()`伪类和`:nth-last-of-type()`伪类
+
+  - `:nth-of-type()`伪类匹配指定索引的当前标签类型元素，`:nth-of-type()`伪类是从前面开始匹配的，而`:nth-last-of-type`伪类是从后面开始匹配的。
+
+  - `:nth-child()`伪类和`:nth-of-type()`伪类的异同：
+
+    - 相同：语法是一模一样的。
+    - 不同：`:nth-of-type()`伪类匹配范围是所有相同标签的相邻元素，而`:nth-child()`伪类会匹配所有相邻元素，无视标签类型。
+
+    ```css
+    /* 第奇数个<p>元素的背景为灰色 */
+    p:nth-of-type(2n + 1) {
+       background-color: #ddd;
+    }
+    /* 将第4的倍数个<p>元素加粗同时深天蓝色显示 */
+    p:nth-of-type(4n) {
+       color: deepskyblue;
+       font-weight: bold;
+    }
+    
+    <article>
+       <h3>标题1</h3>
+       <p>段落内容1</p> /** 匹配 **/
+       <p>段落内容2</p>
+       <h3>标题2</h3>
+       <p>段落内容3</p> /** 匹配 **/
+       <p>段落内容4</p> /** 匹配 **/
+    </article>
+    ```
+
+    ```css
+    /* 第奇数个元素，同时是<p>标签 */
+    p:nth-child(2n + 1) {
+       background-color: #ddd;
+    }
+    /* 第4的倍数个<p>元素，同时是<p>标签 */
+    p:nth-child(4n) {
+       color: deepskyblue;
+       font-weight: bold;
+    }
+    
+    <article>
+       <h3>标题1</h3>
+       <p>段落内容1</p> 
+       <p>段落内容2</p> /** 匹配 **/
+       <h3>标题2</h3>
+       <p>段落内容3</p> /** 匹配 **/
+       <p>段落内容4</p> 
+    </article>
+    ```
+
+    
