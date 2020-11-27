@@ -747,4 +747,106 @@ CSS优先级分为0~5这6个等级
     </article>
     ```
 
-    
+## 第11章 逻辑组合伪类
+
+### 否定伪类`:not()`
+
+- `:not()`伪类的优先级是0，即本身没有任何优先级，最终选择器的优先级是由括号里面的表达式决定的。
+
+- `:not()`伪类可以不断级联。例如：
+
+  ```css
+  input:not(:disabled):not(:read-only) {}
+  ```
+
+- `:not()`伪类尚未支持多个表达式，也不支持出现选择符。
+
+  ```css
+  /* 尚未支持 */
+  .cs-li:not(li, dd) {}
+  .cs-li:not(li):not(dd) {}
+  /* 尚未支持 */
+  input:not(:disabled:read-only) {}
+  /* 尚未支持 */
+  input:not(p:read-only) {}
+  /* 尚未支持 */
+  input:not([id][title]) {}
+  ```
+
+### 任意匹配伪类`:is()`
+
+- `:is()`伪类可以把括号中的选择器依次分配出去，对于那种复杂的有很多逗号分隔的选择器非常有用。
+
+- `:is()`伪类本身的优先级为0，整个选择器的优先级是由`:is()`伪类里面参数优先级别最高的那个选择器决定的。如：
+
+  ```css
+  :is(.article, section) p {}  /** 优先级等同于 .articla p **/
+  :is(#article, .section) p {} /** 优先级等同于 #articla p **/
+  ```
+
+- `:is()`伪类的作用就是简化选择器，如：
+
+  ```css
+  .cs-avatar-a > img,
+  .cs-avatar-b > img,
+  .cs-avatar-c > img,
+  .cs-avatar-d > img {
+      display: block;
+     width: 100%; height: 100%;
+     border-radius: 50%;
+  }
+  
+  /** is伪类简化 **/
+  :is(.cs-avatar-a, .cs-avatar-b, .cs-avatar-c, .cs-avatar-d) > img {
+     display: block;
+     width: 100%; height: 100%;
+     border-radius: 50%;
+  }
+  
+  ol ol li,
+  ol ul li,
+  ul ul li,
+  ul ol li {
+     margin-left: 2em;
+  }
+  
+  /** is伪类简化 **/
+  :is(ol, ul) :is(ol, ul) li {
+     margin-left: 2em;
+  }
+  ```
+
+### 任意匹配伪类`:where()`
+
+`:where()`和`:is()`伪类的含义、语法和作用一模一样，唯一的区别就是优先级不一样，`:where`伪类的优先级永远是0.
+
+```css
+:where(.article, section) p {} /** 优先级等同于 p **/
+:where(#article, #section) .content {} /** 优先级等同于 .content **/
+```
+
+### 关联伪类`:has()`
+
+## 第12章 其他伪类选择器
+
+### 参考元素伪类`:scope`
+
+- 网页只有一个CSS作用域，所以`:scope`伪类等同于`:root`伪类。（除了IE/Edge浏览器，其它浏览器都支持`:scope`伪类）。
+
+- `:scope`伪类在`querySelector()`、`querySelectorAll()`、`matches()`和`Element.closest()`这些DOM API中匹配的正是调用这些API的DOM元素。
+
+  ```css
+  <div id="myId">
+     <div class="lonely">单身如我</div>
+     <div class="outer">
+        <div class="inner">内外开花</div>
+     </div>
+  </div>
+  
+  document.querySelector('#myId').querySelectorAll('div div'); 
+  /** 匹配 .lonely .outer .inner **/
+  
+  document.querySelector('#myId').querySelectorAll(':scope div div');
+  /** 匹配 .inner **/
+  ```
+
