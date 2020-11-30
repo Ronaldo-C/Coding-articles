@@ -850,3 +850,43 @@ CSS优先级分为0~5这6个等级
   /** 匹配 .inner **/
   ```
 
+### Shadow树根元素伪类`:host`
+
+[:host伪类使用示意实例页面](https://demo.cssworld.cn/selector/12/1-1.php)
+
+### Shadow树根元素匹配伪类`:host()`
+
+[:host()伪类使用示意实例页面](https://demo.cssworld.cn/selector/12/1-2.php)
+
+### Shadow树根元素上下文匹配伪类`:host-context()`
+
+[:host-context()伪类使用示意实例页面](https://demo.cssworld.cn/selector/12/1-3.php)
+
+### 与全屏相关的伪类`:fullscreen`
+
+[:fullscreen伪类控制全屏背景半透明实例页面](https://demo.cssworld.cn/selector/12/2-1.php)
+
+### 方向伪类`:dir()`
+
+### 语言伪类`:lang()`
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<body>
+</body>
+</html>
+```
+
+```css
+.cs-content:lang(en) {
+   /* 匹配英文语言 */    
+}
+.cs-content:lang(zh) {
+   /* 匹配中文语言 */    
+}
+```
+
+### Video/Audio播放状态伪类`:playing`和`:paused`
