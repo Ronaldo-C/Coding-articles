@@ -1,9 +1,11 @@
 # 简介
   子曰：“温故而知新，可以为师矣。”
 # 目录
+[Git常用操作记录](articles/Git常用操作记录.md)
+
 [读书系列-《CSS选择器世界》](articles/读书系列-《CSS选择器世界》.md)
 
-[读书系列-《JavaScript高级程序设计（第三版）》](articles/读书系列-《JavaScript高级程序设计（第三版）》)
+[读书系列-《CSS选择器世界》](articles/读书系列-《CSS选择器世界》.md)
 
 [读书系列-《图解HTTP》](articles/读书系列-《图解HTTP》.md)
 
