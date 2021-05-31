@@ -3,6 +3,7 @@
 import compose from './compose'
 
 export default function applyMiddleware(...middlewares) {
+  //返回的是一个enhancer函数
   return createStore => (...args) => {
     //生成store对象
     const store = createStore(...args)
@@ -46,3 +47,4 @@ export default function applyMiddleware(...middlewares) {
 ```
 ## 中间件的执行方式
   ![中间件的执行方式](../images/中间件执行方式.png)
+
