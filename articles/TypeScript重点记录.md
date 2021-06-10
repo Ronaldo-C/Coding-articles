@@ -82,6 +82,34 @@
   }
   ```
 
+## `Enum`
+
+- `Enum`分为数字枚举、字符串枚举和数字，字符串组合的异构枚举。
+- 通过`const`修饰符的枚举会在编译阶段删掉。
+- 和对象比较，枚举最大的优势是可以直接当成类型使用。
+
+```typescript
+//异构枚举
+enum Direction {
+  Up = "UP",
+  Down = 0,
+  Left = "LEFT",
+  Right = "RIGHT",
+}
+
+
+"use strict";
+var Direction;
+(function (Direction) {
+    Direction["Up"] = "UP";
+    Direction[Direction["Down"] = 0] = "Down";
+    Direction["Left"] = "LEFT";
+    Direction["Right"] = "RIGHT";
+})(Direction || (Direction = {}));
+```
+
+[Enums](https://www.typescriptlang.org/docs/handbook/enums.html#const-enums)
+
 ## `keyof`
 
 **获取类型的键值**
@@ -173,3 +201,57 @@ function example(foo?: string){
 
 [`is`keyword](https://stackoverflow.com/questions/40081332/what-does-the-is-keyword-do-in-typescript)
 
+## `type`和`interface`的区别
+
+- `interface`是通过继承的方式来扩展的，`type`是通过 & 来扩展的。
+- `interface`可以自动合并，而`type`不行。
+
+[differences-between-type-aliases-and-interfaces](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#differences-between-type-aliases-and-interfaces)
+
+[理解 Typescript 的 type 和 interface](https://zhuanlan.zhihu.com/p/351213183)
+
+## `React.FC<>`
+
+`React.FC<>`是`react`提供给函数组件的一个范型，它是`React.FunctionComponent<>`的简写，它在定义里就已经规定好了`children`,`defaultProps`等`react`提供的默认属性的类型和函数的返回值。
+
+```typescript
+type FC<P = {}> = FunctionComponent<P>;
+
+interface FunctionComponent<P = {}> {
+  (props: PropsWithChildren<P>, context?: any): ReactElement<any, any> | null;
+	propTypes?: WeakValidationMap<P>;
+	contextTypes?: ValidationMap<any>;
+	defaultProps?: Partial<P>;
+	displayName?: string;
+}
+```
+
+`React.FC`的几个缺点：
+
+- 定义的是一个`function`的类型，而不是参数的类型。
+
+- 总是带有`children`属性，导致一些组件不需要`children`，传了也不会报错。可以使用`PropsWithChildren<>`来自定义是否需要`children`。
+
+- 切断了与`defaultProps`的联系，如果使用了`React.FC<>`，即使定义了组件的`defaultProps`，使用组件时仍需要传入必传参数，否则`typescript`会报错；如果不使用`React.FC<>`并定义了组件的`defaultProps`，那么使用组件时，不必传入必传参数。
+
+  ```typescript
+  //定义的是一个函数的类型
+  const Greeting:FC<GreetingProps> = function({ name }) {
+    return <h1>Hello {name}</h1>
+  }
+  
+  //此时使用Children组件不会报错，如果使用React.FC<>定义类型，那么就会报错
+  const Children = (props:{name: string, age: number}) => {
+    console.log('children', props)
+  
+    return (
+      <div>{props.name}</div>
+    )
+  }
+  Children.defaultProps = {
+    name: '123',
+    age:1
+  }
+  ```
+
+[Why I don't use React.FC](https://fettblog.eu/typescript-react-why-i-dont-use-react-fc/)

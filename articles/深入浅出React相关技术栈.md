@@ -185,3 +185,18 @@ const store = createStore(rootReducer, applyMiddleware(logMiddleware))
 
 ## `react-redux`
 
+#### `connect`
+
+`connect()`的作用是让`react component`连接`redux store`，它可以使连接的`component`从`store`中获取数据，和发送`action`。
+
+- 入参：
+  - `mapStateToProps?: Function`：
+    - `function mapStateToProps(state, ownProps?)`。`state`是调用`store.getState()`返回的值；`ownProps`是父级组件传递进来的`props`。
+    - `mapStateToProps`会在每次`store state`改变时或`ownProps`改变时调用；组件则会在传递进来的`props`改变时重新渲染。
+  - `mapDispatchToProps?: Function | Object`：
+    - 如果为空，则组件默认接受`dispatch`作为`props`。
+    - 如果是函数，签名是：`function mapDispatchToProps(dispatch, ownProps){}`；可以和`redux`返回的`bindActionCreators`结合使用。
+    - 如果是对象，会用`dispatch`包裹传递进来的`action creator`，类似`bindActionCreators`。
+  - `mergeProps?: Function`
+  - `options?: Object`
+
