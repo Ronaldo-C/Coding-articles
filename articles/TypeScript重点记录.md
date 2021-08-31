@@ -82,6 +82,14 @@
   }
   ```
 
+## 如何在`never`、`unknown`、`any` 之间作出选择
+
+- 在那些将或既不能取得任何值的地方，使用 `never`
+- 在那些将或既取得任意值，但不知类型的地方，请使用 `unknown`
+- 除非你有意忽略类型检查，不要使用 `any`
+
+[TS 中何时使用“never”与“unknown”类型](https://www.zhangxinghai.cn/2019/07/24/when-to-use-never-and-unknown-in-typescript.html)
+
 ## `Enum`
 
 - `Enum`分为数字枚举、字符串枚举和数字，字符串组合的异构枚举。
@@ -173,6 +181,14 @@ let obj: t2 = {
 type Pick<T, K extends keyof T> = {
     [P in K]: T[P];
 };
+```
+
+## `infer`
+
+表示在**`extends`**条件语句中待推断的类型变量。
+
+```typescript
+type ReturnType<T extends (...args: unknown) => any> = T extends (...args: unknown) => infer R : R : never;
 ```
 
 ## `in`

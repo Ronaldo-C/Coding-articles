@@ -205,3 +205,11 @@ git reset <path>
 
 [Git-重置](https://git-scm.com/book/zh/v2/Git-%E5%B7%A5%E5%85%B7-%E9%87%8D%E7%BD%AE%E6%8F%AD%E5%AF%86)
 
+## `git revert`
+
+撤销某次提交，但会保存这次提交的`commit`和`history`，并且把这次提交作为一次新的提交。
+
+```
+git revert commit_id 
+```
+

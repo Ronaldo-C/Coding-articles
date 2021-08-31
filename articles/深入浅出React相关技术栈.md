@@ -185,7 +185,7 @@ const store = createStore(rootReducer, applyMiddleware(logMiddleware))
 
 ## `react-redux`
 
-#### `connect`
+### `connect`
 
 `connect()`的作用是让`react component`连接`redux store`，它可以使连接的`component`从`store`中获取数据，和发送`action`。
 
@@ -199,4 +199,43 @@ const store = createStore(rootReducer, applyMiddleware(logMiddleware))
     - 如果是对象，会用`dispatch`包裹传递进来的`action creator`，类似`bindActionCreators`。
   - `mergeProps?: Function`
   - `options?: Object`
+
+### `Provider`
+
+创建一个`react context`，并使用`Context.Provider`包裹下层组件，它接受三个`props`，一个是`redux`提供的`store`，一个是包裹的`children`组件，最后一个是`context`实例，如果没传`react-redux`会自动生成一个`context`实例。
+
+```react
+const context = React.createContext({a: 999})
+
+function App() {
+  return <Provider store={store} context={context}>
+    <Children />
+  </Provider>
+}
+
+export default App
+
+//组件结构会渲染成以下样子
+<Provider store={store} context={context}>
+  <Context.Provider>
+      <Children />
+  </Context.Provider>
+</Provider>
+```
+
+### Hooks
+
+#### `useSelector()`
+
+`useSelector()`大体和`connect`的`mapStateToProps`参数相同，它每次被调用都接受全局的`store`作为唯一参数。
+
+` const result: any = useSelector(selector: Function, equalityFn?: Function)`
+
+**与`mapStateToProps`的不同点：**
+
+- `useSelector`可以返回任何值；`mapStateToProps`只能返回一个对象。
+- `useSelector`默认使用引用比较，但可以通过第二个参数改变比较方式；`mapStateProps`则是浅比较，只是比较返回对象里每个单独的字段。
+
+- `useSelector`不能够接受`ownProps`参数，但是可以通过闭包或者柯里化的`selector`使用。
+- 使用记忆化的`selector`函数，必须注意：多个组件使用一个`createSelector`，并且`selector`依赖每个组件的`props`，则必须为每个组件生成单独的`createSelector`实例。（[reselect](https://github.com/reduxjs/reselect#accessing-react-props-in-selectors)）
 
