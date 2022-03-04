@@ -185,7 +185,7 @@ type Pick<T, K extends keyof T> = {
 
 ## `infer`
 
-表示在**`extends`**条件语句中待推断的类型变量。
+表示在`extends`条件语句中待推断的类型变量。
 
 ```typescript
 type ReturnType<T extends (...args: unknown) => any> = T extends (...args: unknown) => infer R : R : never;

@@ -179,7 +179,7 @@
     ![执行上下文栈](../images/执行上下文栈.png)
 
 ## this
-  - **在函数中this到底取何值，是在函数真正被调用执行的时候确定的，函数定义的时候确定不了。**因为this的取值是执行上下文环境的一部分，每次调用函数，都会产生一个新的执行上下文环境。
+  - **在函数中this到底取何值，是在函数真正被调用执行的时候确定的，函数定义的时候确定不了**。因为this的取值是执行上下文环境的一部分，每次调用函数，都会产生一个新的执行上下文环境。
   - `this`取值的四种情况
     1. 构造函数
         ```javascript
@@ -258,13 +258,13 @@
         ```javascript
         console.log(this === window); //true
         ```
-  - 普通函数在调用时，其中的this也都是window
+    - 普通函数在调用时，其中的this也都是window
         ```javascript
         var x = 10;
         
         var fn = function () {
           console.log(this); //Window {parent: Window, postMessage: ƒ, blur: ƒ, focus: ƒ, close: ƒ, …}
-      console.log(this.x); //10
+          console.log(this.x); //10
         }
         fn()
         
@@ -274,7 +274,7 @@
           fn: function () {
             function f () {
               console.log(this); //Window {parent: Window, postMessage: ƒ, blur: ƒ, focus: ƒ, close: ƒ, …}
-              console.log(this.x); //10
+              console.log(this.x); //undefined
             }
             f()
           }
@@ -384,7 +384,7 @@ function newFun(fun, ...args) {
   Foo()
   // TypeError: Class constructor Foo cannot be invoked without 'new'
   ```
-- [更多介绍请查看阮一峰老师的Class简介](http://es6.ruanyifeng.com/#docs/class#%E6%B3%A8%E6%84%8F%E7%82%B9)
+- [更多介绍请查看阮一峰老师的Class简介](https://es6.ruanyifeng.com/#docs/class)
 
 ### 继承
 
@@ -537,29 +537,29 @@ function newFun(fun, ...args) {
 - `super`关键字
   - `super`作为函数调用时，代表父类的构造函数。
   - `super`作为对象时，在普通方法中，指向父类的原型对象；在静态方法中，指向父类。
-    ```javascript
-    class A {
-        static say(msg) {
-        	console.log('static ' + msg)
-        }
-        say(msg) {
-        	console.log('instance ' + msg)
-        }
-   }
-   class B extends A {
-   	static fun(msg) {
-   		super.say(msg)
-   	}
-   	fun(msg) {
-   		super.say(msg)
-   	}
-   }
-   B.fun('hi') //static hi
-   let b = new B()
-   b.fun('hi') //instance hi
-    ```
+      ```javascript
+      class A {
+          static say(msg) {
+            console.log('static ' + msg)
+          }
+          say(msg) {
+            console.log('instance ' + msg)
+          }
+    }
+    class B extends A {
+      static fun(msg) {
+        super.say(msg)
+      }
+      fun(msg) {
+        super.say(msg)
+      }
+    }
+    B.fun('hi') //static hi
+    let b = new B()
+    b.fun('hi') //instance hi
+      ```
   
- - [更多介绍请查看阮一峰老师的Class继承](http://es6.ruanyifeng.com/#docs/class-extends#%E7%AE%80%E4%BB%8B)
+ - [更多介绍请查看阮一峰老师的Class继承](https://es6.ruanyifeng.com/#docs/class-extends)
 
 ## 解释JS中的静态方法、公有方法、私有方法和特权方法
 ### 静态方法、属性
