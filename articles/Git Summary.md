@@ -1,10 +1,10 @@
-# Git常用操作记录
+# Git 基础知识和常用操作记录
 
 ## `git status`
 
-Git工作目录中的文件只有两种状态：**已跟踪**和**未跟踪**
+Git 工作目录中的文件只有两种状态：**已跟踪**和**未跟踪**
 
-*tracked*：跟踪   *staged*：暂存  *cached*：缓存
+_tracked_：跟踪 _staged_：暂存 _cached_：缓存
 
 ![文件的状态变化周期](../images/lifecycle.png)
 
@@ -48,7 +48,7 @@ git commit --amend
 
 ##　`git log`
 
-[`git log`操作指南](https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-%E6%9F%A5%E7%9C%8B%E6%8F%90%E4%BA%A4%E5%8E%86%E5%8F%B2)
+[git log 操作指南](https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-%E6%9F%A5%E7%9C%8B%E6%8F%90%E4%BA%A4%E5%8E%86%E5%8F%B2)
 
 ```
 git log -p 或 git log -patch
@@ -76,7 +76,6 @@ git log <file>
 ## `git checkout`
 
 `git checkout`有三个不同的作用：**检出文件**、**检出提交**和**检出分支**。
-
 作用：
 
 - 检出提交可以将项目切换到某次提交记录下，进行编译、修改、测试等操作，不需要考虑会影响到当前的状态，所做的一切**不会被保存到仓库中**。
@@ -113,9 +112,9 @@ git branch --no-merged
   1. 用于`git pull`中，来整合另一代码仓库中的变化（即：`git pull` = `git fetch` + `git merge`）
   2. 用于从一个分支到另一个分支的合并
 
-- **注意：**建议不要在`git merge`时存在未`commit`文件，可以使用`git stash`命令将这些未`commit`文件暂存起来，并在合并完之后使用`git stash pop`把这些未`commit`文件还原。
+- **注意**：建议不要在`git merge`时存在未`commit`文件，可以使用`git stash`命令将这些未`commit`文件暂存起来，并在合并完之后使用`git stash pop`把这些未`commit`文件还原。
 
-- **合并流程：**把两个分支最新的提交（C4和C6）以及二者最近的共同祖先（C2）节点进行三方合并，合并的结果生成一个新的提交（C7）。
+- **合并流程**：把两个分支最新的提交（C4 和 C6）以及二者最近的共同祖先（C2）节点进行三方合并，合并的结果生成一个新的提交（C7）。
 
   ![合并流程](../images/git-merge.png)
 
@@ -133,9 +132,9 @@ git merge <branch> --squash
 //如果<branch>都是无意义的提交记录，可以使用--squash命令压缩为一个新的节点提交
 ```
 
-[git merge解析](https://www.jianshu.com/p/58a166f24c81)
+[git merge 解析](https://www.jianshu.com/p/58a166f24c81)
 
-[关于fast forward](https://www.jianshu.com/p/b357df6794e3)
+[关于 fast forward](https://www.jianshu.com/p/b357df6794e3)
 
 ## `git rebase`
 
@@ -143,11 +142,11 @@ git merge <branch> --squash
 
 - 合并提交记录
 
-- **合并分支：**找到当前分支（Feature）和目标基底（Master）分支的共同祖先（C2），并提取当前分支相对于该祖先的历次提交（C5、C6），然后将当前分支指向目标基底的最新节点（C4），最后将当前分支提取的历次提交依序应用。
+- **合并分支**：找到当前分支（Feature）和目标基底（Master）分支的共同祖先（C2），并提取当前分支相对于该祖先的历次提交（C5、C6），然后将当前分支指向目标基底的最新节点（C4），最后将当前分支提取的历次提交依序应用。
 
   ![git-rebase](../images/git-rebase.png)
 
-**遵守准则：**如果提交存在于你的仓库之外，而别人可能基于这些提交进行开发，那么不要执行变基。
+**遵守准则**：如果提交存在于你的仓库之外，而别人可能基于这些提交进行开发，那么不要执行变基。
 
 ```
 git rebase <basebranch>
@@ -178,7 +177,7 @@ git rebase --continue
 //继续应用下一条提交
 ```
 
-[Git分支-变基](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%8F%98%E5%9F%BA)
+[Git 分支-变基](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%8F%98%E5%9F%BA)
 
 [Git-重写历史](https://git-scm.com/book/zh/v2/Git-%E5%B7%A5%E5%85%B7-%E9%87%8D%E5%86%99%E5%8E%86%E5%8F%B2)
 
@@ -186,9 +185,9 @@ git rebase --continue
 
 **工作流程：**
 
-1. 使用`--soft`命令，仅移动 HEAD 分支的指向。此时Index暂存区和工作目录的文件是最新的。
-2. 默认使用`--mixed`命令，同步Index暂存区和HEAD指向提交的文件。此时工作目录的文件是最新的。
-3. 使用`--hard`命令，同步工作目录和Index暂存区的文件。（**危险的用法，它是Git 会真正地销毁数据的仅有的几个操作之一**）。
+1. 使用`--soft`命令，仅移动 HEAD 分支的指向。此时 Index 暂存区和工作目录的文件是最新的。
+2. 默认使用`--mixed`命令，同步 Index 暂存区和 HEAD 指向提交的文件。此时工作目录的文件是最新的。
+3. 使用`--hard`命令，同步工作目录和 Index 暂存区的文件。（**危险的用法，它是 Git 会真正地销毁数据的仅有的几个操作之一**）。
 
 ![Git三棵树](../images/reset-workflow.png)
 
@@ -210,6 +209,27 @@ git reset <path>
 撤销某次提交，但会保存这次提交的`commit`和`history`，并且把这次提交作为一次新的提交。
 
 ```
-git revert commit_id 
+git revert commit_id
 ```
 
+## `git cherry-pick`
+
+将指定的提交应用于其它分支
+
+```
+git cherry-pick <commitHashA> <commitHashB>
+```
+
+# 一些开发场景对 Git 的具体使用
+
+## 1.刚刚提交的 commit message 写错了，如何修改？
+
+1. 使用`git commit --amend`修改。
+2. 使用`git rebase -i HEAD^`修改。
+
+## 2.其它分支代码合并进 master 时，如何把该分支的所有提交揉合成一条提交？
+
+1. `git merge <branch> --squash`
+
+注：多人协作开发大型项目时，PR 的合并最好使用**Squash and merge**
+[Squashing Your Pull Requests](https://cloudfour.com/thinks/squashing-your-pull-requests/#:~:text=how%20it%20helps.-,Squash%20and%20Merge,to%20edit%20the%20commit%20message.)
