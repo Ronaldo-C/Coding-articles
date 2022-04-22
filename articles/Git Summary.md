@@ -219,6 +219,21 @@ git revert commit_id
 ```
 git cherry-pick <commitHashA> <commitHashB>
 ```
+## `git stash`
+```
+git stash 
+//贮藏修改
+git stash list
+//查看贮藏的东西
+git stash apply <stash num>
+//应用其中一个贮藏
+git stash drop <stash num>
+//移除某个贮藏
+git stash pop <stash num>
+//应用某个贮藏然后立即从栈上移除它
+
+//以上的命令如果不带 <stash num>，则会默认操作最新的一个贮藏
+```
 
 # 一些开发场景对 Git 的具体使用
 
@@ -233,3 +248,23 @@ git cherry-pick <commitHashA> <commitHashB>
 
 注：多人协作开发大型项目时，PR 的合并最好使用**Squash and merge**
 [Squashing Your Pull Requests](https://cloudfour.com/thinks/squashing-your-pull-requests/#:~:text=how%20it%20helps.-,Squash%20and%20Merge,to%20edit%20the%20commit%20message.)
+
+## 3.本地开发分支落后于远程 master 分支，如何在开发分支上同步远程 master 分支代码？
+
+1. 先同步本地 master 分支代码，再回到开发分支 rebase 本地 master 分支。**此时本地 master 分支代码同步了远程 master 分支。**
+
+   ```
+   git checkout master
+   git pull origin master
+   //切换 master 分支，拉取远程最新代码
+
+   git checkout develop
+   git rebase master
+   //切换 develop 分支，把 master 分支 rebase 进来
+   ```
+
+2. 直接在开发分支拉取远程 master 分支代码，再 rebase 进本地开发分支。**此时本地 master 分支代码没有同步远程 master 分支。**
+   ```
+   git checkout develop
+   git pull --rebase origin master
+   ```
