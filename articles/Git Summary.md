@@ -185,9 +185,9 @@ git rebase --continue
 
 **工作流程：**
 
-1. 使用`--soft`命令，仅移动 HEAD 分支的指向。此时 Index 暂存区和工作目录的文件是最新的。
-2. 默认使用`--mixed`命令，同步 Index 暂存区和 HEAD 指向提交的文件。此时工作目录的文件是最新的。
-3. 使用`--hard`命令，同步工作目录和 Index 暂存区的文件。（**危险的用法，它是 Git 会真正地销毁数据的仅有的几个操作之一**）。
+1. 使用`--soft`命令，仅移动 HEAD 分支到指定的`<commit>`。此时 Index 暂存区和工作目录的文件是最新的。
+2. 默认使用`--mixed`命令，同步 Index 暂存区和 HEAD 到指定的`<commit>`。此时工作目录的文件是最新的。
+3. 使用`--hard`命令，同步工作目录和 Index 暂存区到指定的`<commit>`。（**危险的用法，它是 Git 会真正地销毁数据的仅有的几个操作之一**）。
 
 ![Git三棵树](../images/reset-workflow.png)
 
@@ -219,9 +219,12 @@ git revert commit_id
 ```
 git cherry-pick <commitHashA> <commitHashB>
 ```
+
 ## `git stash`
+
 ```
-git stash 
+git stash
+= git stash push
 //贮藏修改
 git stash list
 //查看贮藏的东西
@@ -231,27 +234,32 @@ git stash drop <stash num>
 //移除某个贮藏
 git stash pop <stash num>
 //应用某个贮藏然后立即从栈上移除它
+git stash -u
+//可以贮藏未被追踪的文件
+git stash -m "<Name>"
+//自定义贮藏的名字
 
 //以上的命令如果不带 <stash num>，则会默认操作最新的一个贮藏
 ```
+
+[how-do-you-stash-an-untracked-file](https://stackoverflow.com/questions/835501/how-do-you-stash-an-untracked-file#:~:text=If%20those%20files%20need%20to,both%20untracked%20and%20ignored%20files.)
 
 # 一些开发场景对 Git 的具体使用
 
 ## 1.刚刚提交的 commit message 写错了，如何修改？
 
-1. 使用`git commit --amend`修改。
-2. 使用`git rebase -i HEAD^`修改。
+-  使用`git commit --amend`修改。
+-  使用`git rebase -i HEAD^`修改。
 
 ## 2.其它分支代码合并进 master 时，如何把该分支的所有提交揉合成一条提交？
 
-1. `git merge <branch> --squash`
-
+- `git merge <branch> --squash`
 注：多人协作开发大型项目时，PR 的合并最好使用**Squash and merge**
 [Squashing Your Pull Requests](https://cloudfour.com/thinks/squashing-your-pull-requests/#:~:text=how%20it%20helps.-,Squash%20and%20Merge,to%20edit%20the%20commit%20message.)
 
 ## 3.本地开发分支落后于远程 master 分支，如何在开发分支上同步远程 master 分支代码？
 
-1. 先同步本地 master 分支代码，再回到开发分支 rebase 本地 master 分支。**此时本地 master 分支代码同步了远程 master 分支。**
+- 先同步本地 master 分支代码，再回到开发分支 rebase 本地 master 分支。**此时本地 master 分支代码同步了远程 master 分支。**
 
    ```
    git checkout master
@@ -263,8 +271,13 @@ git stash pop <stash num>
    //切换 develop 分支，把 master 分支 rebase 进来
    ```
 
-2. 直接在开发分支拉取远程 master 分支代码，再 rebase 进本地开发分支。**此时本地 master 分支代码没有同步远程 master 分支。**
+- 直接在开发分支拉取远程 master 分支代码，再 rebase 进本地开发分支。**此时本地 master 分支代码没有同步远程 master 分支。**
    ```
    git checkout develop
    git pull --rebase origin master
    ```
+
+## 4.在 develop1 分支开发的功能代码还没写完，现在紧急需要切换到 develop2 修改 bug，如何处理当前 develop1 分支代码？
+
+- 使用`git stash`贮藏工作目录文件，回到 develop1 分支时，再使用`git stash apply`恢复修改的文件。
+- 先提交代码，修改完 bug 回到 develop1 分支时，再使用`git reset HEAD^`把提交的代码恢复到工作目录。
